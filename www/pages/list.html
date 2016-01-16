@@ -1,0 +1,24 @@
+  <md-content   ng-controller="listAppCtrl"  class=" padd-48"  >
+<md-input-container class="md-icon-float md-block marg-35" ng-show="showDetails">
+  <label>جستجو</label>
+
+  <input ng-model="user.name" type="text">
+  <md-icon md-svg-src="img/icons/magnifier13.svg" class="name"></md-icon>
+</md-input-container>  
+<md-list>
+ <md-list-item class="md-3-line" ng-repeat="item in todos" ng-click="go('content/list/2');" >
+ <md-divider ></md-divider>
+        <img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />
+        <div class="md-list-item-text" layout="column">
+          <h3>{{ item.what }}</h3>
+          <!--<h4>{{ item.what }}</h4>-->
+          <p>{{ item.notes }}</p>
+        </div>     
+         
+      </md-list-item>
+    </md-list>
+          <md-button aria-label="menu" class="md-fab md-warn " ng-click="showDetails = ! showDetails">
+            <md-icon md-svg-src="img/icons/magnifier13.svg"></md-icon>
+          </md-button>
+          
+  </md-content>
