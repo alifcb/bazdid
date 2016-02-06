@@ -5,8 +5,8 @@
   <input ng-model="query" type="text">
   <md-icon md-svg-src="img/icons/magnifier13.svg" class="name"></md-icon>
 </md-input-container>  
- <md-subheader class="md-primary">شرکت های خودرو ساز</md-subheader>
-<md-list>
+<!-- <md-subheader class="md-primary">شرکت های خودرو ساز</md-subheader>
+--><md-list>
  <md-list-item class="md-3-line" ng-repeat="item in todos  | filter : search" ng-click="go(item.id);" >
  <md-divider ></md-divider>
         <img ng-src="{{item.logo}}?{{$index}}" class="md-avatar" alt="{{item.name}}" />

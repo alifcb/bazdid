@@ -48,9 +48,7 @@ function(tx, rs){
 		}                         
 	}    
 var sssc=JSON.stringify(json_arr);
-})});
-
-
+})}); 
 ////////////////////////////////////
 function onDeviceBase() {
 var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
@@ -94,8 +92,8 @@ function flagSuccess(tx, results) {
 var counts=results.rows.item(0).valuem;
 //alert(counts);
 var x=0;
-DownloadFile("http://bazdid.namiaweb.ir/manage/company.json",company.json);
-$.getJSON("http://bazdid.namiaweb.ir/manage/company.json", function(json) {
+//DownloadFile("http://www.shahreroya.ir/demo2/company.json",company.json);
+$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
 for(i = counts; i < json.items.length; i++) {
 x=x+1;
 testo(json.items[i].ids, json.items[i].name, json.items[i].pic, json.items[i].direct, json.items[i].comment, json.items[i].flag);
@@ -116,7 +114,8 @@ dbs.transaction (function(tx){insert(tx,id,name,pic,direct,comment,flag);}, erro
 
 function insert(tx,id,name,pic,direct,comment,flag) {
 tx.executeSql('INSERT INTO company(ids,name,comment,logo,direct,flag) values('+id+', "'+name+'", "'+comment+'", "'+pic+'","'+direct+'", '+flag+')');
-DownloadFile('http://bazdid.namiaweb.ir/manage/'+direct+pic,pic);	// دانلود عکس ها
+DownloadFile('http://www.irannoozdah.ir/bazdid/'+direct+pic,pic);	// دانلود عکس ها
+
 }
 ///////////////////////// اپدیت  آیتم های قدیم
 
@@ -141,11 +140,11 @@ tx.executeSql("UPDATE settings SET valuem='"+number+"' where title='last_co'", [
 //////////////////////////////////////
 function up_picco(tx, results) {
 //alert(results.rows.length);
-$.getJSON("http://bazdid.namiaweb.ir/manage/company.json", function(json) {
+$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
 
 for(i = 0; i < results.rows.length; i++) {
 if(results.rows.item(i).logo!=json.items[i].pic){//alert('sssr'+results.rows.item(i).logo);
-DownloadFile('http://bazdid.namiaweb.ir/manage/'+json.items[i].direct+json.items[i].pic,json.items[i].pic);	// دانلود عکس ها		
+DownloadFile('http://www.irannoozdah.ir/bazdid/'+json.items[i].direct+json.items[i].pic,json.items[i].pic);	// دانلود عکس ها		
 }
 }
 });
@@ -174,7 +173,7 @@ function errorSE(err) {
 //console.log("Error processing SQL2: "+err.message);
 
 //alert('out');
-$.getJSON("http://bazdid.namiaweb.ir/manage/company.json", function(json) {
+$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
 var long=json.items.length;		
 var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 dbs.transaction (function(tx){nenter(tx,long);},errOUT);	
@@ -193,7 +192,7 @@ testo(json.items[i].ids, json.items[i].name, json.items[i].pic, json.items[i].co
 function testo(id,name,pic,comment,direct,flag) {
 var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 dbs.transaction (function(tx){inserts(tx,id,name,pic,comment,direct,flag);}, erro);
-DownloadFile('http://bazdid.namiaweb.ir/manage/'+direct+pic,pic);	 
+DownloadFile('http://www.irannoozdah.ir/bazdid/'+direct+pic,pic);	 
 }
 
 function inserts(tx,id,name,pic,comment,direct,flag) {
@@ -202,7 +201,7 @@ tx.executeSql('INSERT INTO company(ids,name,comment,direct,logo,flag) values('+i
 }
 
 ////////////////////////////////////////////////////////////////////////cars start insert
-$.getJSON("http://bazdid.namiaweb.ir/manage/company.json", function(json) {
+$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
 var long=json.cars.length;		
 var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 dbs.transaction (function(tx){nenter_car(tx,long);},errOUT);	
@@ -219,7 +218,7 @@ insert_cars(json.cars[i].ids, json.cars[i].name, json.cars[i].pic, json.cars[i].
 function insert_cars(id,name,pic,bime,comment,company,direct,flag) {
 var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 dbs.transaction (function(tx){inserts_cars(tx,id,name,pic,bime,comment,company,direct,flag);}, erro);
-DownloadFile('http://bazdid.namiaweb.ir/manage/'+direct+pic,pic);	 
+DownloadFile('http://www.irannoozdah.ir/bazdid/'+direct+pic,pic);	 
 }
 
 function inserts_cars(tx,id,name,pic,bime,comment,company,direct,flag) {
@@ -230,7 +229,7 @@ tx.executeSql('INSERT INTO cars(ids,name,comment,bime,company,direct,pic,flag,fa
 
 
 ////////////////////////////////////////////////////////////////////////pics_car start insert
-$.getJSON("http://bazdid.namiaweb.ir/manage/company.json", function(json) {
+$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
 var long=json.pics.length;
 var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 dbs.transaction (function(tx){nenter_pic(tx,long);},errOUT);	
@@ -247,11 +246,11 @@ insert_pics(json.pics[i].ids, json.pics[i].pic,json.pics[i].direct,json.pics[i].
 function insert_pics(id,pic,direct,idcar,flag) {//alert(id+pic+direct+idcar+flag);
 var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 dbs.transaction (function(tx){inserts_pics(tx,id,pic,direct,idcar,flag);}, erro);
-DownloadFile('http://bazdid.namiaweb.ir/manage/'+direct+pic,pic);	 
+DownloadFile('http://www.irannoozdah.ir/bazdid/'+direct+pic,pic);	 
 }
 
 function inserts_pics(tx,id,pic,direct,idcar,flag) {
-alert(id+idcar+pic+flag);
+//alert(id+idcar+pic+flag);
 tx.executeSql('INSERT INTO pics(ids,pic,direct,id_car,flag) values('+id+',"'+pic+'","'+direct+'",'+idcar+','+flag+')');
 }
 
@@ -274,7 +273,7 @@ var counts=results.rows.item(0).valuem;
 //alert(counts);
 var x=0;
 
-$.getJSON("http://bazdid.namiaweb.ir/manage/company.json", function(json) {
+$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
 for(i = counts; i < json.cars.length; i++) {
 x=x+1;
 insert_car(json.cars[i].ids, json.cars[i].name, json.cars[i].pic,json.cars[i].bime, json.cars[i].direct, json.cars[i].company, json.cars[i].comment, json.cars[i].flag);
@@ -292,8 +291,8 @@ dbs.transaction (function(tx){insert_to_car(tx,id,name,pic,bime,direct,company,c
 }
 
 function insert_to_car(tx,id,name,pic,bime,direct,company,comment,flag) {
-tx.executeSql('INSERT INTO cars(ids,name,comment,company,pic,bime,direct,flag) values('+id+', "'+name+'", "'+comment+'",  '+company+',"'+pic+'",'+bime+',"'+direct+'", '+flag+')');
-DownloadFile('http://bazdid.namiaweb.ir/manage/'+direct+pic,pic);	// دانلود عکس ها
+tx.executeSql('INSERT INTO cars(ids,name,comment,company,pic,bime,direct,flag,fav) values('+id+', "'+name+'", "'+comment+'",  '+company+',"'+pic+'",'+bime+',"'+direct+'", '+flag+',0)');
+DownloadFile('http://www.irannoozdah.ir/bazdid/'+direct+pic,pic);	// دانلود عکس ها
 }
 ///////////////////////// اپدیت  آیتم های قدیم
 
@@ -318,11 +317,11 @@ tx.executeSql("UPDATE settings SET valuem='" +number+"' where title='last_car'",
 //////////////////////////////////////
 function up_picca(tx, results) {
 //alert(results.rows.length);
-$.getJSON("http://bazdid.namiaweb.ir/manage/company.json", function(json) {
+$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
 
 for(i = 0; i < results.rows.length; i++) {
 if(results.rows.item(i).pic!=json.cars[i].pic){//alert('sssr'+results.rows.item(i).pic);
-DownloadFile('http://bazdid.namiaweb.ir/manage/'+json.cars[i].direct+json.cars[i].pic,json.cars[i].pic);	// دانلود عکس ها		
+DownloadFile('http://www.irannoozdah.ir/bazdid/'+json.cars[i].direct+json.cars[i].pic,json.cars[i].pic);	// دانلود عکس ها		
 }
 }
 });
@@ -334,7 +333,7 @@ var counts=results.rows.item(0).valuem;
 //alert(counts);
 var x=0;
 
-$.getJSON("http://bazdid.namiaweb.ir/manage/company.json", function(json) {
+$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
 for(i = counts; i < json.pics.length; i++) {
 x=x+1;
 insert_pic(json.pics[i].ids, json.pics[i].pic, json.pics[i].direct,json.pics[i].id_car, json.pics[i].flag);
@@ -353,7 +352,7 @@ dbs.transaction (function(tx){insert_to_pic(tx,id,pic,direct,id_car,flag);}, err
 
 function insert_to_pic(tx,id,pic,direct,id_car,flag) {
 tx.executeSql('INSERT INTO pics(ids,pic,direct,id_car,flag) values('+id+',"'+pic+'","'+direct+'", '+id_car+' '+flag+')');
-DownloadFile('http://bazdid.namiaweb.ir/manage/'+direct+pic,pic);	// دانلود عکس ها
+DownloadFile('http://www.irannoozdah.ir/bazdid/'+direct+pic,pic);	// دانلود عکس ها
 }
 ///////////////////////// اپدیت  آیتم های قدیم
 
@@ -378,11 +377,11 @@ tx.executeSql("UPDATE settings SET valuem='" +number+"' where title='last_pic'",
 //////////////////////////////////////
 function up_picpi(tx, results) {
 //alert(results.rows.length);
-$.getJSON("http://bazdid.namiaweb.ir/manage/company.json", function(json) {
+$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
 
 for(i = 0; i < results.rows.length; i++) {
 if(results.rows.item(i).pic!=json.pics[i].pic){//alert('sssr'+results.rows.item(i).pic);
-DownloadFile('http://bazdid.namiaweb.ir/manage/'+json.pics[i].direct+json.pics[i].pic,json.pics[i].pic);	// دانلود عکس ها		
+DownloadFile('http://www.irannoozdah.ir/bazdid/'+json.pics[i].direct+json.pics[i].pic,json.pics[i].pic);	// دانلود عکس ها		
 }
 }
 });
