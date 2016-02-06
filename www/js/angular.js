@@ -1,6 +1,8 @@
  var scotchApp = angular.module('StarterApp', ['ngRoute','ngMaterial','ngSanitize'] );
  
- 
+scotchApp.run(function($rootScope) {
+    $rootScope.test = new Date();
+})
 // configure our routes
 scotchApp.config(function($routeProvider) {	  
 
@@ -14,100 +16,142 @@ scotchApp.config(function($routeProvider) {
 	  // route for the list page
 	  .when('/list/:param1', {
 		  templateUrl : 'pages/list.html',
-		  controller  : 'listAppCtrl'
+		
 	  })
-	   // route for the content page
+	 // route for the content page
 	  .when('/content/:param1/:page1', {
 		  templateUrl : 'pages/content.html',
-		  controller  : 'ContentCtrl'
+		
 	  })
 	  
 	   // route for the tabs page
-	  .when('/tabs', {
-		  templateUrl : 'pages/tabs.html',
-		  controller  : 'tabsController'
+	  .when('/form/:param1', {
+		  templateUrl : 'pages/form.html',
+	  })
+	  
+	  	   // route for the tabs page
+	  .when('/fav/:param1', {
+		  templateUrl : 'pages/fav.html',
 	  })
 
 });
 
 ////////////////////////////////////////////////////////////	
-scotchApp.controller('mainController', function($scope,$location,$routeParams) {
+//scotchApp.controller('mainController',  ['$scope', '$window', function($scope,$window) {
 
+
+/////////////////////////////
+
+scotchApp.controller('mainController', ['$scope', 'todoService','$location','$routeParams', function($scope, todoService,$location,$routeParams)
+{
 $scope.go = function ( path ) {$location.path( path );};
-var imagePath = 'img/bmw.png';
-var imagePath2 = 'img/benz.png';
-	  var imagePath3 = 'img/lamb.png';
-    $scope.todos = [
-      {
-        face : imagePath,
-        what: 'Brunch this weekend?',
-        who: 'شرکت تویتا',
-        when: '3:08PM',
-        notes: "در حال حاضر مدل های  ایکس در لیست قرار دارند"
-      },
-      {
-        face : imagePath2,
-        what: 'شرکت بنز',
-        who: 'شرکت بنز',
-        when: '3:08PM',
-        notes: " در حال حاضر مدل های  ایکس در لیست قرار دارند"
-      },
-      {
-        face : imagePath3,
-        what: 'Brunch this weekend?',
-        who: 'ایران خودرو',
-        when: '3:08PM',
-        notes: "در حال حاضر مدل های  ایکس در لیست قرار دارند"
-      },
-      {
-        face : imagePath,
-        what: 'Brunch this weekend?',
-        who: 'کیا موتور',
-        when: '3:08PM',
-        notes: "در حال حاضر مدل های  ایکس در لیست قرار دارند"
-      },
-	        {
-        face : imagePath2,
-        what: 'Brunch this weekend?',
-        who: 'شرکت هیوندا',
-        when: '3:08PM',
-        notes: "در حال حاضر مدل های  ایکس در لیست قرار دارند"
-      },
-      {
-        face : imagePath3,
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: "در حال حاضر مدل های  ایکس در لیست قرار دارند"
-      },
-      {
-        face : imagePath,
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: "در حال حاضر مدل های  ایکس در لیست قرار دارند"
-      },
-      {
-        face : imagePath2,
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: "در حال حاضر مدل های  ایکس در لیست قرار دارند"
-      },
-      {
-        face : imagePath3,
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: "در حال حاضر مدل های  ایکس در لیست قرار دارند"
-      },
-    ];
+
+todoService.getItems().then(function(items)
+{
+	$scope.todos = items;
+});
+$scope.search = function (row) {
+	return !!((row.name.indexOf($scope.query || '') !== -1));
+};
+ }]);
+scotchApp.service('todoService', function($q) 
+{
+    this.getItems = function() 
+    {   var flag=1;
+        var deferred, result = [];
+        deferred = $q.defer();
+		var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
+        db.transaction(function(tx) 
+        {
+            tx.executeSql("select * from company where flag="+flag, [], function(tx, res) 
+            {
+                for(var i = 0; i < res.rows.length; i++)
+                {
+result.push({id : 'list/'+res.rows.item(i).ids, name : res.rows.item(i).name,comment : res.rows.item(i).comment, logo : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).logo})
+}
+deferred.resolve(result);
+	});
+	  });
+	  return deferred.promise;
+    }
 });
 
-scotchApp.controller('ContentCtrl', function($scope, $mdDialog, $mdMedia) {
-$scope.imagePath = 'img/eefre.jpg';	
+///////////////////////////////////////////
+scotchApp.controller('listAppCtrl', function($scope,todoServicex,$location,$routeParams)
+{
+$scope.search = function (row) {
+	return !!((row.name.indexOf($scope.query || '') !== -1));
+};
+var param1 = $routeParams.param1;
+$scope.pageid=param1;
 
-  $scope.showAdvanced = function(ev,textx) {
+todoServicex.getItems(param1).then(function(items)
+{
+$scope.todos = items;
+});
+ });
+ 
+scotchApp.service('todoServicex', function($q) 
+{
+this.getItems = function(para)
+  {   var idcom=para;
+	  var deferred, result = [];
+	  deferred = $q.defer();
+	  var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
+	  db.transaction(function(tx) 
+	  { tx.executeSql("select * from cars where company="+idcom, [], function(tx, res) 
+		  {
+			  for(var i = 0; i < res.rows.length; i++)
+			  {
+		  result.push({id : 'content/list/'+res.rows.item(i).ids, name : res.rows.item(i).name, company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
+		  }
+		  deferred.resolve(result);
+		});
+ });
+	  return deferred.promise;
+    },
+this.getfaver = function()
+  {   
+	  var deferred, result = [];
+	  deferred = $q.defer();
+	  var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
+	  db.transaction(function(tx) 
+	  { tx.executeSql("select * from cars where fav=1", [], function(tx, res) 
+		  {
+		for(var i = 0; i < res.rows.length; i++)
+		{
+		  result.push({id : 'content/list/'+res.rows.item(i).ids, name : res.rows.item(i).name, company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
+		}
+		  deferred.resolve(result);
+		});
+	  });
+	  return deferred.promise;
+    }
+});
+
+
+///////////////////////////////////////////////////ContentCtrl
+scotchApp.controller('ContentCtrl', function($scope,todoServicez,$location,$routeParams,$mdDialog, $mdMedia)
+{
+var param1 = $routeParams.param1;
+var page1 = $routeParams.page1;
+$scope.fave = function (id_var) 
+{  
+todoServicez.faverat(id_var);
+alert('با موفقیت در لیست علایق قرار گرفت');
+};
+//alert(id_var);;
+$scope.pageid=page1;
+todoServicez.carme(page1).then(function(items)
+{ 
+	$scope.todo = items;
+});
+todoServicez.picme(page1).then(function(items)
+{ 
+	$scope.todop = items;
+});
+
+$scope.showAdvanced = function(ev,textx) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
 		locals:{dataToPass: textx}, 
@@ -118,8 +162,7 @@ $scope.imagePath = 'img/eefre.jpg';
       clickOutsideToClose:true,
       fullscreen: true
     });
-
-  };
+};
 
 function DialogController($scope, $mdDialog,dataToPass) {
   $scope.hide = function() {
@@ -133,68 +176,79 @@ $scope.todo = dataToPass ;
   
 });
 
-scotchApp.controller('listAppCtrl', function($scope) {
-	var imagePath = 'img/eee.jpg';
-    var imagePath2 = 'img/ggg.jpg';
-	  var imagePath3 = 'img/hhh.jpg';
-    $scope.todos = [
-      {
-        face : imagePath,
-        what: 'پراید 141',
-        who: 'شرکت تویتا',
-        when: '3:08PM',
-        notes: "در حال حاضر مدل های  ایکس در لیست قرار دارند"
-      },
-      {
-        face : imagePath2,
-        what: 'بنز کلاس E',
-        who: 'شرکت بنز',
-        when: '3:08PM',
-        notes: " در حال حاضر مدل های  ایکس در لیست قرار دارند"
-      },
-      {
-        face : imagePath3,
-        what: 'لامبورگینی',
-        who: 'ایران خودرو',
-        when: '3:08PM',
-        notes: "در حال حاضر مدل های  ایکس در لیست قرار دارند"
-      },
-      {
-        face : imagePath,
-        what: 'پژو 207',
-        who: 'کیا موتور',
-        when: '3:08PM',
-        notes: "در حال حاضر مدل های  ایکس در لیست قرار دارند"
-      },
-	        {
-        face : imagePath2,
-        what: 'کیا سراتو',
-        who: 'شرکت هیوندا',
-        when: '3:08PM',
-        notes: "در حال حاضر مدل های  ایکس در لیست قرار دارند"
-      },
-      {
-        face : imagePath3,
-        what: 'اپتیما',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: "در حال حاضر مدل های  ایکس در لیست قرار دارند"
-      },
-      {
-        face : imagePath,
-        what: 'سانتافه',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: "در حال حاضر مدل های  ایکس در لیست قرار دارند"
-      },
 
-    ];
-	});
+scotchApp.service('todoServicez', function($q) 
+{
+this.carme = function(para)
+  {   var idcom=para;
 
+	  var deferred, result = [];
+	  deferred = $q.defer();
+	  var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
+	  db.transaction(function(tx) 
+	  { tx.executeSql("select * from cars where ids="+idcom, [], function(tx, res) 
+		  { 
+			  for(var i = 0; i < res.rows.length; i++)
+			  {
+		  result.push({id : res.rows.item(i).ids, name : res.rows.item(i).name, company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
+		  }
+		  deferred.resolve(result);
+		});
+	  });
+	  return deferred.promise;
+    },
+this.picme = function(para)
+  {   var idcom=para;
 
+	  var deferred, result = [];
+	  deferred = $q.defer();
+	  var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
+	  db.transaction(function(tx) 
+	  { tx.executeSql("select * from pics where flag=1 and id_car="+idcom, [], function(tx, res) 
+		  { 
+			  for(var i = 0; i < res.rows.length; i++)
+			  {
+		  result.push({id : res.rows.item(i).ids, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
+		  }
+		  deferred.resolve(result);
+		});
+	  });
+	  return deferred.promise;
+    },
+this.faverat = function(idss) 
+    {
+		var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
+        db.transaction(function(tx) 
+        {
+            return tx.executeSql("UPDATE cars SET fav=1 where ids="+idss , [], function(tx, res) 
+            {
+                return true;
+            });
+        });
+        return false;
+    }
+});
 
+///////////////////////////////////////////////////FORMCtrl
+scotchApp.controller('FORMCtrl', function($scope,todoServicez,$location,$routeParams,$mdDialog, $mdMedia)
+{
+	
+});
 
-//////////////////////////////////////////////////////////	//////////////////////////sid nav
+///////////////////////////////////////////////////showfav
+scotchApp.controller('Showfav', function($scope,todoServicex,$location,$routeParams)
+{
+$scope.search = function (row) {
+	return !!((row.name.indexOf($scope.query || '') !== -1));
+};	
+todoServicex.getfaver().then(function(items)
+{
+$scope.todos = items;
+});
+ 
+});
+
+////////////////////////////////////////////////////////////////////////////////////sid nav
 scotchApp.controller('Sidnav', function ($scope, $timeout, $mdSidenav, $log) {
 $scope.toggleLeft = buildDelayedToggler('left');
 $scope.toggleRight = buildToggler('right');
@@ -248,12 +302,11 @@ $mdSidenav('right').close()
 	$log.debug("close RIGHT is done");
   });
 }; 
-  $scope.settings = [
+$scope.settings = [
   { name: 'لیست شرکت ها', icon: 'img/icons/collision.svg', links: '/list/modern' },
   { name: 'انواع شماره شاسی',  icon: 'img/icons/car164.svg', links: '/list/farhang'  },
   { name: 'انواع خودرو',  icon: 'img/icons/transport103.svg', links: '/list/rols'  },
   { name: 'تنظیمات',  icon: 'img/icons/three115.svg', links: '/list/nice'  },
-
   ];
 });
 	

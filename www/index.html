@@ -11,7 +11,7 @@
           <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css"> 
         <title>Hello World</title>
     </head>
-<body ng-app="StarterApp" ng-cloak>
+<body ng-app="StarterApp"  ng-cloak>
 
 <div ng-controller="Sidnav" md-swipe-left="toggleRight()" ng-cloak>
 
@@ -19,7 +19,7 @@
         <md-toolbar class="md-theme-light" >
         <div class="md-toolbar-tools">
         <span flex></span>
-        <h2>بازدید اولیه</h2>
+        <h2>برنا</h2>
 </div>
       </md-toolbar>
       <md-content ng-controller="RightCtrl" md-swipe-right="close()" >
@@ -42,18 +42,18 @@
     </md-sidenav>
 
 
-<div ng-controller="mainController" >
+<div ng-controller="mainController">
     <md-toolbar class="fixed">
       <div class="md-toolbar-tools">
         <md-button class="md-icon-button" aria-label="Settings">
           <md-icon md-svg-icon="img/icons/refresh62.svg"></md-icon>
         </md-button>   
-        <md-button class="md-icon-button" aria-label="Favorite">
+        <md-button class="md-icon-button" ng-click="go('fav/2')" aria-label="Favorite">
           <md-icon md-svg-icon="img/icons/favorite21.svg" style="color: greenyellow;"></md-icon>
         </md-button>
         <span flex></span>
         <h2>
-          <span>بازدید اولیه</span>
+          <span>برنا</span>
         </h2>
 
         <md-button class="md-icon-button"   ng-click="toggleRight()" aria-label="More">
@@ -61,9 +61,9 @@
         </md-button>
       </div>
     </md-toolbar>
-    
-
-    <div ng-view ></div>
+ <div ng-view ></div>
+<div ><img src="" id="iamdd"></div>
+<div id="company" style="display:block" ></div>
 </div>
 </div>
 <script src="bower_components/angular/angular.min.js"></script>

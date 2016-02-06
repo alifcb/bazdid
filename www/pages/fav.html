@@ -1,24 +1,24 @@
-  <md-content   ng-controller="listAppCtrl"  class=" padd-48"  >
+  <md-content   ng-controller="Showfav"  class=" padd-48"  >
 <md-input-container class="md-icon-float md-block marg-35" >
   <label>جستجو</label>
 
-  <input   ng-model="query" type="text">
+  <input  ng-model="query" type="text">
   <md-icon md-svg-src="img/icons/magnifier13.svg" class="name"></md-icon>
-</md-input-container>  
-<md-subheader class="md-primary">لیست خودرو ها</md-subheader> 
+</md-input-container> 
+<md-subheader class="md-primary">لیست مورد علاقه</md-subheader> 
 <md-list>
- <md-list-item class="md-3-line" ng-repeat="item in todos | filter: search" ng-click="go(item.id);" >
+ <md-list-item class="md-3-line" ng-repeat="item in todos  | filter : search" ng-click="go(item.id);" >
  <md-divider ></md-divider>
         <img ng-src="{{item.pic}}?{{$index}}" class="md-avatar" alt="{{item.name}}" />
         <div class="md-list-item-text" layout="column">
           <h3>{{ item.name }}</h3>
           <!--<h4>{{ item.what }}</h4>-->
           <p>{{ item.comment }}</p>
-        </div> 
+        </div>       
       </md-list-item>
     </md-list>
 <md-button aria-label="menu" class="md-fab md-warn "  ng-click="go('form/2')">
-  <md-icon  class="adds" md-svg-src="img/icons/plus3.svg"></md-icon>
+  <md-icon md-svg-src="img/icons/plus3.svg"></md-icon>
 </md-button>
           
-  </md-content>
+</md-content>

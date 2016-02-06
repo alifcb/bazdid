@@ -25,7 +25,7 @@ md-list-item.md-3-line, md-list-item.md-3-line > .md-no-style {
 	bottom:25px;
 	left:25px;
 }
-
+md-icon .adds{color:#FFF !important}
 md-list-item .md-no-style.md-button, md-list-item.md-no-proxy.md-button{text-align:right !important;}
 md-list-item md-icon{margin-left:10px !important; margin-right:0px !important;}
 .md-subheader{ text-align:right !important; }
