@@ -331,7 +331,7 @@ this.carme = function(para)
 	  { tx.executeSql("select * from cars where ids="+idcom, [], function(tx, res) 
 		  { 
 			  for(var i = 0; i < res.rows.length; i++)
-			  {
+			  {alert(res.rows.item(i).pic);
 		  result.push({id : res.rows.item(i).ids, name : res.rows.item(i).name,bime : res.rows.item(i).bime, picname: res.rows.item(i).pic, direct: res.rows.item(i).direct, srcpic: 'http://www.irannoozdah.ir/bazdid/', company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
 		  }
 		  deferred.resolve(result);
@@ -369,7 +369,7 @@ db.transaction(function(tx)
 		{
 			var fileTransfer = new FileTransfer();
 			var uri = encodeURI('http://www.irannoozdah.ir/bazdid/'+res.rows.item(i).direct+res.rows.item(i).pic);
-			alert(uri);
+			//alert(uri);
 			fileTransfer.download(
 			uri,
 			"file:///storage/sdcard0/bazdid/images/"+res.rows.item(i).pic,
@@ -409,7 +409,7 @@ this.UserImg=function(imageURI,file_name){
 
 				},
 				function(error){
-					alert("An error has occurred: Code = " + error.code);
+					//alert("An error has occurred: Code = " + error.code);
 					console.error("upload error source " + error.source);
 					console.error("upload error target " + error.target);
 					deferred.reject(error);
@@ -471,7 +471,7 @@ $mdToast.show(
   headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
  })
   .success(function(data) {
-    alert(data.items[0].cell);
+   // alert(data.items[0].cell);
 	if(data.items[0].cell!=''){
 	$location.path('/home');
 	}
