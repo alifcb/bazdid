@@ -57,16 +57,18 @@ $location.path('/');
 scotchApp.controller('StarterCtr',  function($scope, todoService,$location,$routeParams,$sce,$http)
 {
 $scope.go = function ( path ) {$location.path( path );};
-document.addEventListener("offline", onOffline, false);
-function onOffline() {
-$location.path('/online');
-}
+
 
 todoService.idreg().then(function(items)
 {
 	$scope.regiser = items;
 	if($scope.regiser){
 	$location.path('/home');
+	}else{
+	document.addEventListener("offline", onOffline, false);
+	  function onOffline() {
+	  $location.path('/online');
+	}	
 	}
 });
 
