@@ -1,18 +1,25 @@
  var scotchApp = angular.module('StarterApp', ['ngRoute','ngMaterial','ngSanitize'] );
  
-scotchApp.run(function($rootScope) {
-    $rootScope.test = new Date();
-})
+//scotchApp.run(function($rootScope) {
+//    $rootScope.test = new Date();
+//})
 // configure our routes
 scotchApp.config(function($routeProvider) {	  
 
   $routeProvider
 	  // route for the home page
 	  .when('/', {
-		  templateUrl : 'pages/home.html',
-		  controller  : 'mainController'
+		  templateUrl : 'pages/start.html',
 	  })
-
+	  
+	  .when('/home', {
+		  templateUrl : 'pages/home.html',
+	  })
+	  
+	  .when('/online', {
+		  templateUrl : 'pages/online.html',
+	  })
+	  
 	  // route for the list page
 	  .when('/list/:param1', {
 		  templateUrl : 'pages/list.html',
@@ -23,7 +30,6 @@ scotchApp.config(function($routeProvider) {
 		  templateUrl : 'pages/content.html',
 		
 	  })
-	  
 	   // route for the tabs page
 	  .when('/form/:param1', {
 		  templateUrl : 'pages/form.html',
@@ -33,27 +39,95 @@ scotchApp.config(function($routeProvider) {
 	  .when('/fav/:param1', {
 		  templateUrl : 'pages/fav.html',
 	  })
+	  	  	   // route for the tabs page
+	  .when('/about/:param1', {
+		  templateUrl : 'pages/about.html',
+	  })
+
+});
+////////////////////////////////////////////////////////
+scotchApp.controller('onlineCtrl',  function($scope,$location,$routeParams)
+{
+document.addEventListener("online", onOnline, false);
+function onOffline() {
+$location.path('/');
+}
+});
+////////////////////////////////////////////////////////////	
+scotchApp.controller('StarterCtr',  function($scope, todoService,$location,$routeParams,$sce,$http)
+{
+$scope.go = function ( path ) {$location.path( path );};
+document.addEventListener("offline", onOffline, false);
+function onOffline() {
+$location.path('/online');
+}
+
+todoService.idreg().then(function(items)
+{
+	$scope.regiser = items;
+	if($scope.regiser){
+	$location.path('/home');
+	}
+});
+
+$scope.trustSrc = function(src) {
+return $sce.trustAsResourceUrl(src);
+}
+$scope.movie = {src:"http://www.shahreroya.ir/bazdid/req.php", title:"واریز به حساب"};
+/////////////////////////////////////////////////////////////////////
+$scope.user = {};
+$scope.sabtcode = function() {
+  $http({
+  method  : 'POST',
+  url     : 'http://www.shahreroya.ir/phonegap/api/bazdid.php',
+  data    : $.param({name: $scope.user.fname, mname:$scope.user.name, codes:$scope.user.code}),  // pass in data as strings
+  headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+ })
+  .success(function(data) {
+//alert(data.items[0].cell);
+if(data.items[0].cell!=''){
+todoService.insertcod(data.items[0].cell);
+$location.path('/home');
+}
+
+
+  });
+};
+
 
 });
 
-////////////////////////////////////////////////////////////	
-//scotchApp.controller('mainController',  ['$scope', '$window', function($scope,$window) {
-
-
 /////////////////////////////
 
-scotchApp.controller('mainController', ['$scope', 'todoService','$location','$routeParams', function($scope, todoService,$location,$routeParams)
+scotchApp.controller('mainController', function($scope, todoService,$location,$routeParams)
 {
+document.addEventListener("backbutton", function(e){
+	if($location.path()=='/home' ){
+	e.preventDefault();
+	navigator.app.exitApp();
+	}
+	else {
+	navigator.app.backHistory()
+	}
+}, false);
+	
 $scope.go = function ( path ) {$location.path( path );};
-
 todoService.getItems().then(function(items)
 {
 	$scope.todos = items;
 });
-$scope.search = function (row) {
-	return !!((row.name.indexOf($scope.query || '') !== -1));
+$scope.query = '';
+$scope.search = function (user) {
+  var query = $scope.query.toLowerCase(),
+  name = user.name.toLowerCase();
+
+  if (name.indexOf(query) != -1) {
+    return true;
+  }
+  return false;
 };
- }]);
+
+ });
 scotchApp.service('todoService', function($q) 
 {
     this.getItems = function() 
@@ -67,12 +141,39 @@ scotchApp.service('todoService', function($q)
             {
                 for(var i = 0; i < res.rows.length; i++)
                 {
-result.push({id : 'list/'+res.rows.item(i).ids, name : res.rows.item(i).name,comment : res.rows.item(i).comment, logo : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).logo})
-}
-deferred.resolve(result);
-	});
-	  });
-	  return deferred.promise;
+				result.push({id : 'list/'+res.rows.item(i).ids, name : res.rows.item(i).name,comment : res.rows.item(i).comment, logo : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).logo})
+				}
+				deferred.resolve(result);
+				});
+				});
+				return deferred.promise;
+				},
+				
+		               this.idreg = function()
+						{  
+						var deferred, result = [];
+						deferred = $q.defer();
+						var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
+						db.transaction(function(tx) 
+						{ tx.executeSql("SELECT * FROM settings where title='id_reg'", [], function(tx, res) 
+						{ 
+						result=res.rows.item(0).valuem;
+						deferred.resolve(result);
+						});
+						});
+						return deferred.promise;
+						},
+		this.insertcod = function(idss) 
+		{
+		var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
+        db.transaction(function(tx) 
+        {
+            return tx.executeSql('INSERT INTO settings(title,valuem) values("id_reg","'+idss+'")' , [], function(tx, res) 
+            {
+                return true;
+            });
+        });
+        return false;
     }
 });
 
@@ -103,7 +204,7 @@ this.getItems = function(para)
 		  {
 			  for(var i = 0; i < res.rows.length; i++)
 			  {
-		  result.push({id : 'content/list/'+res.rows.item(i).ids, name : res.rows.item(i).name, company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
+		  result.push({id : 'content/list/'+res.rows.item(i).ids, name : res.rows.item(i).name, bime : res.rows.item(i).bime, company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
 		  }
 		  deferred.resolve(result);
 		});
@@ -131,15 +232,57 @@ this.getfaver = function()
 
 
 ///////////////////////////////////////////////////ContentCtrl
-scotchApp.controller('ContentCtrl', function($scope,todoServicez,$location,$routeParams,$mdDialog, $mdMedia)
+scotchApp.controller('ContentCtrl', function($scope,$route,todoServicez,$location,$routeParams,$mdDialog,$route,$timeout, $mdMedia,$mdToast)
 {
 var param1 = $routeParams.param1;
 var page1 = $routeParams.page1;
+/////////////////////////////////////// like kardan
 $scope.fave = function (id_var) 
-{  
+{
 todoServicez.faverat(id_var);
-alert('با موفقیت در لیست علایق قرار گرفت');
+$mdToast.show(
+      $mdToast.simple()
+        .textContent('این خودرو با موفقیت در لیست مورد علایق شما قرار گرفت!')
+        .position('bottom right')
+        .hideDelay(5000)
+);
 };
+
+/////////////////////////////////// download mohadad aks
+$scope.downloadimg = function (URL,direct,File_Name,ids) 
+{ 
+$mdToast.show(
+      $mdToast.simple()
+        .textContent('برنامه در حال دریافت تصاویر از سرور می باشد لطفا چند لحظه صبر کنید!')
+        .position('bottom right')
+        .hideDelay(5000)
+);
+setTimeout(function () {
+$route.reload();
+}, 4000);
+todoServicez.downgallery(ids);
+urls=URL+direct+File_Name;
+//alert(urls);
+var fileTransfer = new FileTransfer();
+var uri = encodeURI(urls);
+fileTransfer.download(
+uri,
+"file:///storage/sdcard0/bazdid/images/"+File_Name,
+function(entt) {
+},
+function(error) {
+  console.log("upload error code" + error.message);
+},
+false,
+{
+  headers: {
+	  "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+  }
+}
+);
+
+};
+
 //alert(id_var);;
 $scope.pageid=page1;
 todoServicez.carme(page1).then(function(items)
@@ -181,7 +324,6 @@ scotchApp.service('todoServicez', function($q)
 {
 this.carme = function(para)
   {   var idcom=para;
-
 	  var deferred, result = [];
 	  deferred = $q.defer();
 	  var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
@@ -190,7 +332,7 @@ this.carme = function(para)
 		  { 
 			  for(var i = 0; i < res.rows.length; i++)
 			  {
-		  result.push({id : res.rows.item(i).ids, name : res.rows.item(i).name, company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
+		  result.push({id : res.rows.item(i).ids, name : res.rows.item(i).name,bime : res.rows.item(i).bime, picname: res.rows.item(i).pic, direct: res.rows.item(i).direct, srcpic: 'http://www.irannoozdah.ir/bazdid/', company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
 		  }
 		  deferred.resolve(result);
 		});
@@ -198,23 +340,85 @@ this.carme = function(para)
 	  return deferred.promise;
     },
 this.picme = function(para)
-  {   var idcom=para;
+{   var idcom=para;
 
-	  var deferred, result = [];
-	  deferred = $q.defer();
-	  var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
-	  db.transaction(function(tx) 
-	  { tx.executeSql("select * from pics where flag=1 and id_car="+idcom, [], function(tx, res) 
-		  { 
-			  for(var i = 0; i < res.rows.length; i++)
-			  {
-		  result.push({id : res.rows.item(i).ids, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
-		  }
-		  deferred.resolve(result);
-		});
-	  });
-	  return deferred.promise;
-    },
+var deferred, result = [];
+deferred = $q.defer();
+var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
+db.transaction(function(tx) 
+{ tx.executeSql("select * from pics where flag=1 and id_car="+idcom, [], function(tx, res) 
+	{ 
+		for(var i = 0; i < res.rows.length; i++)
+		{
+	result.push({id : res.rows.item(i).ids, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
+	}
+	deferred.resolve(result);
+  });
+});
+return deferred.promise;
+},
+
+this.downgallery = function(idcarm)
+{   var idcom=idcarm;
+//alert(idcom);
+var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
+db.transaction(function(tx) 
+{ tx.executeSql("select * from pics where flag=1 and id_car="+idcom, [], function(tx, res) 
+	{ 
+		for(var i = 0; i < res.rows.length; i++)
+		{
+			var fileTransfer = new FileTransfer();
+			var uri = encodeURI('http://www.irannoozdah.ir/bazdid/'+res.rows.item(i).direct+res.rows.item(i).pic);
+			alert(uri);
+			fileTransfer.download(
+			uri,
+			"file:///storage/sdcard0/bazdid/images/"+res.rows.item(i).pic,
+			function(entt) {
+			},
+			function(error) {
+			  console.log("upload error code" + error.message);
+			},
+			false,
+			{
+			  headers: {
+				  "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+			  }
+			}
+			);
+	}
+  });
+});
+return true;
+},
+this.UserImg=function(imageURI,file_name){
+            var deferred = $q.defer();
+			var options = new FileUploadOptions();
+			options.fileKey="file";
+			options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
+
+			var params = {};
+			params.value1 = file_name;
+			options.params = params;
+			var ft = new FileTransfer();
+			ft.upload(imageURI, encodeURI('http://www.shahreroya.ir/phonegap/api/bazdid.php'),
+				function(r){
+					console.log("Code = " + r.responseCode);
+					console.log("Response = " + r.response);
+					console.log("Sent = " + r.bytesSent);
+					deferred.resolve(r.response);
+
+				},
+				function(error){
+					alert("An error has occurred: Code = " + error.code);
+					console.error("upload error source " + error.source);
+					console.error("upload error target " + error.target);
+					deferred.reject(error);
+
+				}, options);
+
+
+return deferred.promise;
+        },
 this.faverat = function(idss) 
     {
 		var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
@@ -230,9 +434,51 @@ this.faverat = function(idss)
 });
 
 ///////////////////////////////////////////////////FORMCtrl
-scotchApp.controller('FORMCtrl', function($scope,todoServicez,$location,$routeParams,$mdDialog, $mdMedia)
+scotchApp.controller('FORMCtrl', function($scope, todoServicez,$location,$routeParams,$sce,$http,$mdToast)
 {
+
+$scope.users = {};	
+$scope.sendform = function(urlpic) {
+$scope.btshow=true;
+$mdToast.show(
+      $mdToast.simple()
+        .textContent('برنامه در حال ارسال اطلاعات می باشد لطفا منتظر بمانید!')
+        .position('bottom right')
+        .hideDelay(3500)
+);
 	
+var d = new Date();	
+namefile=d.getTime()+'.jpg';
+var largeImage = document.getElementById('largeImage');
+ imageURI=largeImage.src ;
+// alert(imageURI);
+todoServicez.UserImg(imageURI,namefile).then(function(items)
+{
+$scope.btshow=false;	
+//alert(items);
+$mdToast.show(
+      $mdToast.simple()
+        .textContent('ارسال به اتمام رسید')
+        .position('bottom right')
+        .hideDelay(4000)
+);
+});
+
+  $http({
+  method  : 'POST',
+  url     : 'http://www.shahreroya.ir/phonegap/api/bazdid.php',
+  data    : $.param({company: $scope.user.company, cars:$scope.user.cars, photo:namefile}),  // pass in data as strings
+  headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+ })
+  .success(function(data) {
+    alert(data.items[0].cell);
+	if(data.items[0].cell!=''){
+	$location.path('/home');
+	}
+
+  });
+};
+
 });
 
 ///////////////////////////////////////////////////showfav
@@ -249,11 +495,17 @@ $scope.todos = items;
 });
 
 ////////////////////////////////////////////////////////////////////////////////////sid nav
-scotchApp.controller('Sidnav', function ($scope, $timeout, $mdSidenav, $log) {
+scotchApp.controller('Sidnav', function ($scope,$location,$routeParams, $timeout, $mdSidenav, $log) {
+	$scope.go = function ( path ) { $location.path( path );};
 $scope.toggleLeft = buildDelayedToggler('left');
 $scope.toggleRight = buildToggler('right');
 $scope.isOpenRight = function(){
   return $mdSidenav('right').isOpen();
+};
+$scope.close = function () {
+  $mdSidenav('right').close()
+	.then(function () {
+	});
 };
 /**
  * Supplies a function that will continue to operate until the
@@ -280,7 +532,7 @@ function buildDelayedToggler(navID) {
 	$mdSidenav(navID)
 	  .toggle()
 	  .then(function () {
-		$log.debug("toggle " + navID + " is done");
+	
 	  });
   }, 200);
 }
@@ -289,13 +541,14 @@ function buildToggler(navID) {
 	$mdSidenav(navID)
 	  .toggle()
 	  .then(function () {
-		$log.debug("toggle " + navID + " is done");
+
 	  });
   }
 }
 })
 
 .controller('RightCtrl', function ($scope, $timeout, $mdSidenav, $log) {
+
 $scope.close = function () {
 $mdSidenav('right').close()
   .then(function () {

@@ -5,21 +5,23 @@
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="msapplication-tap-highlight" content="no" />
+        
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-          <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css"> 
+          <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
+           
         <title>Hello World</title>
     </head>
-<body ng-app="StarterApp"  ng-cloak>
+<body ng-app="StarterApp" ng-cloak>
 
-<div ng-controller="Sidnav" md-swipe-left="toggleRight()" ng-cloak>
+<div ng-controller="Sidnav" md-swipe-left="toggleRight()" md-swipe-right="close()" ng-cloak>
 
-<md-sidenav   class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
+<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
         <md-toolbar class="md-theme-light" >
         <div class="md-toolbar-tools">
         <span flex></span>
-        <h2>برنا</h2>
+        <h2>بازدید اولیه برنا</h2>
 </div>
       </md-toolbar>
       <md-content ng-controller="RightCtrl" md-swipe-right="close()" >
@@ -30,20 +32,19 @@
       
       <md-divider ></md-divider> 
       
-        <md-list-item ng-click="go('content/help/33');close();" >
+        <md-list-item ng-click="go('about/2');close();" >
       <md-icon md-svg-icon="img/icons/worker47.svg"></md-icon>
       <p>درباره ما </p>
       </md-list-item>
-      <md-list-item ng-click="go('content/help/36'); close();">
+      <md-list-item ng-click="go('about/3');close();">
       <md-icon md-svg-icon="img/icons/support.svg"></md-icon>
       <p> راهنما </p>
       </md-list-item> 
       </md-content>
     </md-sidenav>
 
-
-<div ng-controller="mainController">
-    <md-toolbar class="fixed">
+<div>
+    <md-toolbar class="fixed" ng-controller="mainController" >
       <div class="md-toolbar-tools">
         <md-button class="md-icon-button" aria-label="Settings">
           <md-icon md-svg-icon="img/icons/refresh62.svg"></md-icon>
@@ -53,18 +54,16 @@
         </md-button>
         <span flex></span>
         <h2>
-          <span>برنا</span>
+        <span>بازدید اولیه برنا</span>
         </h2>
-
         <md-button class="md-icon-button"   ng-click="toggleRight()" aria-label="More">
           <md-icon md-svg-icon="img/icons/list30.svg"></md-icon>
         </md-button>
       </div>
     </md-toolbar>
- <div ng-view ></div>
-<div ><img src="" id="iamdd"></div>
-<div id="company" style="display:block" ></div>
 </div>
+ <div ng-view class="slide" ></div>
+
 </div>
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>

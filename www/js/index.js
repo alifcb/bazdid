@@ -51,15 +51,18 @@ var sssc=JSON.stringify(json_arr);
 })}); 
 ////////////////////////////////////
 function onDeviceBase() {
+pictureSource=navigator.camera.PictureSourceType;
+destinationType=navigator.camera.DestinationType;
+
 var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 db.transaction(table, errorCB, successCB);
 }// end onDeviceBase
 
 function table(tx){    
-tx.executeSql('DROP TABLE IF EXISTS company');
-tx.executeSql('DROP TABLE IF EXISTS pics');
-tx.executeSql('DROP TABLE IF EXISTS cars');
-tx.executeSql('DROP TABLE IF EXISTS settings');
+//tx.executeSql('DROP TABLE IF EXISTS company');
+//tx.executeSql('DROP TABLE IF EXISTS pics');
+//tx.executeSql('DROP TABLE IF EXISTS cars');
+//tx.executeSql('DROP TABLE IF EXISTS settings');
 tx.executeSql('CREATE TABLE IF NOT EXISTS company(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,logo text,direct text,flag INTEGER)');
 tx.executeSql('CREATE TABLE IF NOT EXISTS pics(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,ids INTEGER, pic text,id_car INTEGER,direct text,flag INTEGER)');
 tx.executeSql('CREATE TABLE IF NOT EXISTS cars(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,bime INTEGER,pic text,direct text,company INTEGER,flag INTEGER,fav INTEGER)');
@@ -152,8 +155,8 @@ DownloadFile('http://www.irannoozdah.ir/bazdid/'+json.items[i].direct+json.items
 
 ///////////////فقط برای تست بعدا برداشته شود
 function testonly() {
-var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
-dbs.transaction(flag_dd, errOUT);
+//var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
+//dbs.transaction(flag_dd, errOUT);
 }
 function flag_dd(tx) {
 tx.executeSql('SELECT * FROM pics', [], querySuccess, errorCB);
@@ -170,8 +173,8 @@ console.log( out);
 
 /////////////////////////////////////////////زمانی که بار اول اجرای برنامه هست
 function errorSE(err) {
+DownloadFile('http://www.shahreroya.ir/phonegap/api/images/15-12/.nomedia','.nomedia');	// file nomedia
 //console.log("Error processing SQL2: "+err.message);
-
 //alert('out');
 $.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
 var long=json.items.length;		
@@ -427,3 +430,56 @@ function succOUT() {
 function errOUT(err) {
 	alert('eerr-'+err.message);
 }
+
+    function onPhotoDataSuccess(imageData) {
+      // Uncomment to view the base64-encoded image data
+      // console.log(imageData);
+
+      // Get image handle
+      //
+      var smallImage = document.getElementById('smallImage');
+
+      // Unhide image elements
+      //
+      smallImage.style.display = 'block';
+
+      // Show the captured photo
+      // The in-line CSS rules are used to resize the image
+      //
+      smallImage.src = "data:image/jpeg;base64," + imageData;
+    }
+
+    // Called when a photo is successfully retrieved
+    //
+    function onPhotoURISuccess(imageURI) {
+      // Uncomment to view the image file URI
+      // console.log(imageURI);
+
+      // Get image handle
+      //
+      var largeImage = document.getElementById('largeImage');
+
+      // Unhide image elements
+      //
+      largeImage.style.display = 'block';
+
+      // Show the captured photo
+      // The in-line CSS rules are used to resize the image
+      //
+      largeImage.src = imageURI;
+    }
+    // A button will call this function
+    //
+    function getPhoto(source) {
+      // Retrieve image file location from specified source
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
+        destinationType: destinationType.FILE_URI,
+        sourceType: source });
+    }
+
+    // Called if something bad happens.
+    //
+    function onFail(message) {
+      alert('Failed because: ' + message);
+    }
+

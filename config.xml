@@ -1,5 +1,5 @@
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.namiaweb.bazdid" version="1.0.0">
-  <name>بازدید اولیه</name>
+  <name>برنا</name>
   <description>طراحی و پیاده سازی شرکت گسترش وب نامیا</description>
   <author href="http://phonegap.com" email="support@phonegap.com">namiaweb</author>
   <content src="index.html"/>
@@ -40,7 +40,6 @@
   <gap:plugin name="org.apache.cordova.network-information"/>
   <gap:plugin name="org.apache.cordova.splashscreen"/>
   <gap:plugin name="org.apache.cordova.vibration"/>
-  
   <icon src="icon.png"/>
   <icon src="www/res/icon/android/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi"/>
   <icon src="www/res/icon/android/icon-48-mdpi.png" gap:platform="android" gap:qualifier="mdpi"/>
@@ -69,6 +68,9 @@
   <gap:splash src="www/res/screen/windows-phone/screen-portrait.jpg" gap:platform="winphone"/>
   <access origin="*"/>
   <access origin="cdvfile://*" />
+  <allow-navigation href="http://*/*" />
+  <allow-navigation href="https://*/*" />
+  <allow-navigation href="data:*" />
   <plugin name="cordova-plugin-whitelist" version="1"/>
   <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
@@ -76,10 +78,13 @@
   <allow-intent href="sms:*"/>
   <allow-intent href="mailto:*"/>
   <allow-intent href="geo:*"/>
+  <allow-intent href="*" />
   <platform name="android">
+  <allow-intent href="*" />
     <allow-intent href="market:*"/>
   </platform>
   <platform name="ios">
+  <allow-intent href="*" />
     <allow-intent href="itms:*"/>
     <allow-intent href="itms-apps:*"/>
   </platform>

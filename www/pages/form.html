@@ -2,27 +2,34 @@
 
 
 <div ng-controller="FORMCtrl" layout="column" class=" padd-48" layout-padding ng-cloak>
+ <md-progress-linear class="md-warn"  ng-show="btshow"></md-progress-linear>
   <br/>
   <md-content class="autoScroll">
     <md-input-container class="md-icon-float md-block">
       <label>نام شرکت</label>
       <md-icon md-svg-src="img/icons/wrench73.svg" class="name"></md-icon>
-      <input ng-model="user.name" type="text">
+      <input ng-model="user.company" type="text">
     </md-input-container>
     <md-input-container class="md-icon-float md-block">
       <label>نام خودرو</label>
       <md-icon md-svg-src="img/icons/window58.svg" class="name"></md-icon>
-      <input ng-model="user.name" type="text">
+      <input ng-model="user.cars" type="text">
     </md-input-container>
     
         <md-input-container class="md-icon-float md-block">
-      <label>تصویر</label>
       <md-icon md-svg-src="img/icons/wrenches12.svg" class="name"></md-icon>
-      <input ng-model="user.phone" type="file" placeholder="تصویر" >
+
+    <md-button  class="md-raised md-primary" onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">انتخاب تصویر </md-button>
+        <img style="display:none;" ng-show="false" id="largeImage" src="" />
+
           </md-input-container>
 
-      <md-button class="md-raised md-primary">ارسال</md-button>  </md-content>
+      <md-button ng-disabled="btshow" class="md-raised md-primary" ng-click="sendform();">ارسال</md-button> 
+       </md-content>
 </div>
 
 
+
+
+        
 <!--end bakhsh tabs-->

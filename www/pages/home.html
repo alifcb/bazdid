@@ -9,17 +9,17 @@
 --><md-list>
  <md-list-item class="md-3-line" ng-repeat="item in todos  | filter : search" ng-click="go(item.id);" >
  <md-divider ></md-divider>
-        <img ng-src="{{item.logo}}?{{$index}}" class="md-avatar" alt="{{item.name}}" />
+        <img ng-src="{{item.logo}}?{{$index}}" class="md-avatar moraba" alt="{{item.name}}" />
         <div class="md-list-item-text" layout="column">
           <h3>{{ item.name }}</h3>
-          <!--<h4>{{ item.what }}</h4>-->
+          
           <p>{{ item.comment }}</p>
         </div>     
-         
+
       </md-list-item>
     </md-list>
 <md-button aria-label="menu" ng-click="go('form/2')" class="md-fab md-warn ">
-  <md-icon class="adds" md-svg-src="img/icons/plus3.svg"></md-icon>
+     <md-icon class="md-primary" md-svg-src="img/icons/plus-sign.svg" ng-style="{'font-size': 32px}" ></md-icon>
 </md-button>
 </md-content> 
 

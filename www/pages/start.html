@@ -1,0 +1,23 @@
+<div ng-controller="StarterCtr" layout="column" layout-padding ng-cloak  class=" padd-48" >
+<iframe  type="text/html" height="385" ng-src="{{trustSrc(movie.src)}}" allowfullscreen frameborder="0"></iframe>
+  <br/>
+  <md-content class="autoScroll">
+    <md-input-container class="md-icon-float md-block">
+      <label>نام</label>
+      <md-icon md-svg-src="img/icons/blank38.svg" class="name"></md-icon>
+      <input ng-model="user.name" type="text">
+    </md-input-container>
+     <md-input-container class="md-icon-float md-block">
+      <label>نام خانوادگی</label>
+      <md-icon md-svg-src="img/icons/blank38.svg" class="name"></md-icon>
+      <input ng-model="user.fname" type="text">
+    </md-input-container>
+        <md-input-container class="md-icon-float md-block">
+      <label>سریال خرید</label>
+      <md-icon md-svg-src="img/icons/blank38.svg" class="name"></md-icon>
+      <input ng-model="user.code" type="text">
+    </md-input-container>
+          <md-button class="md-raised md-primary"  ng-click="sabtcode();">ثبت</md-button> 
+            </md-content>
+
+</div>
