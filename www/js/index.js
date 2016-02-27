@@ -14,7 +14,7 @@ var app = {
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {alert('salam');
+    onDeviceReady: function() {//alert('salam');
         app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
@@ -29,11 +29,10 @@ var app = {
     }
 };
 
-document.addEventListener('deviceready',onDeviceBase, false);
-
+document.addEventListener("online", onDeviceBase, false);
 
 ///////////////////////////////////////////////////////
-var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
+/*var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 dbs.transaction(function(tx){           
 tx.executeSql("SELECT * FROM company where flag=1", [],
 function(tx, rs){    
@@ -47,7 +46,7 @@ function(tx, rs){
 		}                         
 	}    
 var sssc=JSON.stringify(json_arr);
-})}); 
+})}); */
 ////////////////////////////////////
 function onDeviceBase() {
 pictureSource=navigator.camera.PictureSourceType;
@@ -58,10 +57,10 @@ db.transaction(table, errorCB, successCB);
 }// end onDeviceBase
 
 function table(tx){    
-//tx.executeSql('DROP TABLE IF EXISTS company');
-//tx.executeSql('DROP TABLE IF EXISTS pics');
-//tx.executeSql('DROP TABLE IF EXISTS cars');
-//tx.executeSql('DROP TABLE IF EXISTS settings');
+/*tx.executeSql('DROP TABLE IF EXISTS company');
+tx.executeSql('DROP TABLE IF EXISTS pics');
+tx.executeSql('DROP TABLE IF EXISTS cars');
+tx.executeSql('DROP TABLE IF EXISTS settings');*/
 tx.executeSql('CREATE TABLE IF NOT EXISTS company(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,logo text,direct text,flag INTEGER)');
 tx.executeSql('CREATE TABLE IF NOT EXISTS pics(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,ids INTEGER, pic text,id_car INTEGER,direct text,flag INTEGER)');
 tx.executeSql('CREATE TABLE IF NOT EXISTS cars(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,bime INTEGER,pic text,direct text,company INTEGER,flag INTEGER,fav INTEGER)');
@@ -94,8 +93,8 @@ function flagSuccess(tx, results) {
 var counts=results.rows.item(0).valuem;
 //alert(counts);
 var x=0;
-//DownloadFile("http://www.shahreroya.ir/demo2/company.json",company.json);
-$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
+//DownloadFile("http://www.borna-grp.ir/demo2/company.json",company.json);
+$.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 for(i = counts; i < json.items.length; i++) {
 x=x+1;
 testo(json.items[i].ids, json.items[i].name, json.items[i].pic, json.items[i].direct, json.items[i].comment, json.items[i].flag);
@@ -104,8 +103,8 @@ if(x==1){up_last(json.items.length);}
 
 for(i = 0; i < counts; i++) {
 up_flag(json.items[i].ids, json.items[i].name, json.items[i].pic, json.items[i].direct, json.items[i].comment, json.items[i].flag);
+}	
 
-}
 });
 }
 ///////////////////////////////  ثبت آیتم های جدید
@@ -116,12 +115,12 @@ dbs.transaction (function(tx){insert(tx,id,name,pic,direct,comment,flag);}, erro
 
 function insert(tx,id,name,pic,direct,comment,flag) {
 tx.executeSql('INSERT INTO company(ids,name,comment,logo,direct,flag) values('+id+', "'+name+'", "'+comment+'", "'+pic+'","'+direct+'", '+flag+')');
-DownloadFile('http://www.irannoozdah.ir/bazdid/'+direct+pic,pic);	// دانلود عکس ها
+DownloadFile('http://www.borna-grp.ir/'+direct+pic,pic);	// دانلود عکس ها
 
 }
 ///////////////////////// اپدیت  آیتم های قدیم
 
-function up_flag(id,name,pic,direct,comment,flag){
+function up_flag(id,name,pic,direct,comment,flag){//alert(name);
 var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 dbs.transaction (function(tx){up_function(tx,id,name,pic,direct,comment,flag);}, testonly, errOUT );	 
 }
@@ -142,11 +141,11 @@ tx.executeSql("UPDATE settings SET valuem='"+number+"' where title='last_co'", [
 //////////////////////////////////////
 function up_picco(tx, results) {
 //alert(results.rows.length);
-$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
+$.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 
 for(i = 0; i < results.rows.length; i++) {
 if(results.rows.item(i).logo!=json.items[i].pic){//alert('sssr'+results.rows.item(i).logo);
-DownloadFile('http://www.irannoozdah.ir/bazdid/'+json.items[i].direct+json.items[i].pic,json.items[i].pic);	// دانلود عکس ها		
+DownloadFile('http://www.borna-grp.ir/'+json.items[i].direct+json.items[i].pic,json.items[i].pic);	// دانلود عکس ها		
 }
 }
 });
@@ -172,10 +171,10 @@ console.log( out);
 
 /////////////////////////////////////////////زمانی که بار اول اجرای برنامه هست
 function errorSE(err) {
-DownloadFile('http://www.shahreroya.ir/phonegap/api/images/15-12/.nomedia','.nomedia');	// file nomedia
+DownloadFile('http://www.borna-grp.ir/images/.nomedia','.nomedia');	// file nomedia
 //console.log("Error processing SQL2: "+err.message);
 //alert('out');
-$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
+$.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 var long=json.items.length;		
 var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 dbs.transaction (function(tx){nenter(tx,long);},errOUT);	
@@ -194,7 +193,7 @@ testo(json.items[i].ids, json.items[i].name, json.items[i].pic, json.items[i].co
 function testo(id,name,pic,comment,direct,flag) {
 var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 dbs.transaction (function(tx){inserts(tx,id,name,pic,comment,direct,flag);}, erro);
-DownloadFile('http://www.irannoozdah.ir/bazdid/'+direct+pic,pic);	 
+DownloadFile('http://www.borna-grp.ir/'+direct+pic,pic);	 
 }
 
 function inserts(tx,id,name,pic,comment,direct,flag) {
@@ -203,7 +202,7 @@ tx.executeSql('INSERT INTO company(ids,name,comment,direct,logo,flag) values('+i
 }
 
 ////////////////////////////////////////////////////////////////////////cars start insert
-$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
+$.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 var long=json.cars.length;		
 var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 dbs.transaction (function(tx){nenter_car(tx,long);},errOUT);	
@@ -220,7 +219,7 @@ insert_cars(json.cars[i].ids, json.cars[i].name, json.cars[i].pic, json.cars[i].
 function insert_cars(id,name,pic,bime,comment,company,direct,flag) {
 var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 dbs.transaction (function(tx){inserts_cars(tx,id,name,pic,bime,comment,company,direct,flag);}, erro);
-DownloadFile('http://www.irannoozdah.ir/bazdid/'+direct+pic,pic);	 
+DownloadFile('http://www.borna-grp.ir/'+direct+pic,pic);	 
 }
 
 function inserts_cars(tx,id,name,pic,bime,comment,company,direct,flag) {
@@ -231,7 +230,7 @@ tx.executeSql('INSERT INTO cars(ids,name,comment,bime,company,direct,pic,flag,fa
 
 
 ////////////////////////////////////////////////////////////////////////pics_car start insert
-$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
+$.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 var long=json.pics.length;
 var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 dbs.transaction (function(tx){nenter_pic(tx,long);},errOUT);	
@@ -248,7 +247,7 @@ insert_pics(json.pics[i].ids, json.pics[i].pic,json.pics[i].direct,json.pics[i].
 function insert_pics(id,pic,direct,idcar,flag) {//alert(id+pic+direct+idcar+flag);
 var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 dbs.transaction (function(tx){inserts_pics(tx,id,pic,direct,idcar,flag);}, erro);
-DownloadFile('http://www.irannoozdah.ir/bazdid/'+direct+pic,pic);	 
+DownloadFile('http://www.borna-grp.ir/'+direct+pic,pic);	 
 }
 
 function inserts_pics(tx,id,pic,direct,idcar,flag) {
@@ -275,13 +274,14 @@ var counts=results.rows.item(0).valuem;
 //alert(counts);
 var x=0;
 
-$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
+$.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 for(i = counts; i < json.cars.length; i++) {
 x=x+1;
 insert_car(json.cars[i].ids, json.cars[i].name, json.cars[i].pic,json.cars[i].bime, json.cars[i].direct, json.cars[i].company, json.cars[i].comment, json.cars[i].flag);
 if(x==1){up_last_car(json.cars.length);}
 }
 for(i = 0; i < counts; i++) {
+	//alert(json.cars[i].name);
 up_flag_car(json.cars[i].ids, json.cars[i].name, json.cars[i].pic,json.cars[i].bime, json.cars[i].direct,  json.cars[i].company, json.cars[i].comment, json.cars[i].flag);
 }
 });
@@ -294,17 +294,22 @@ dbs.transaction (function(tx){insert_to_car(tx,id,name,pic,bime,direct,company,c
 
 function insert_to_car(tx,id,name,pic,bime,direct,company,comment,flag) {
 tx.executeSql('INSERT INTO cars(ids,name,comment,company,pic,bime,direct,flag,fav) values('+id+', "'+name+'", "'+comment+'",  '+company+',"'+pic+'",'+bime+',"'+direct+'", '+flag+',0)');
-DownloadFile('http://www.irannoozdah.ir/bazdid/'+direct+pic,pic);	// دانلود عکس ها
+DownloadFile('http://www.borna-grp.ir/'+direct+pic,pic);	// دانلود عکس ها
 }
+
+
 ///////////////////////// اپدیت  آیتم های قدیم
 
-function up_flag_car(id,name,pic,direct,company,comment,flag){
+function up_flag_car(id,name,pic,bime,direct,company,comment,flag){
 var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
-dbs.transaction (function(tx){up_function_car(tx,id,name,pic,bime,direct,company,comment,flag);}, testonly,errorCB );	 
+dbs.transaction (function(tx){up_function_car(tx,id,name,pic,bime,direct,company,comment,flag);}, testcard,errorCB );	 
 }
 
-function up_function_car(tx,id,name,pic,bime,direct,company,comment,flag) {//alert(id);
-tx.executeSql("UPDATE cars SET name='"+name+"',comment='"+comment+"',company="+company+",pic='"+pic+"',bime="+bime+",direct='"+direct+"',flag="+flag+" where ids="+id+"", [], testonly, errorCB );
+function testcard() {
+}
+
+function up_function_car(tx,id,name,pic,bime,direct,company,comment,flag) {//alert(name);
+tx.executeSql("UPDATE cars SET name='"+name+"',comment='"+comment+"',company="+company+",pic='"+pic+"',bime="+bime+",direct='"+direct+"',flag="+flag+" where ids="+id+"", [], testcard, errorCB );
 }
 ////////// اپدیت تعداد ایتم های موجود در دیتا بیس محلی
 function up_last_car(number) {
@@ -319,11 +324,11 @@ tx.executeSql("UPDATE settings SET valuem='" +number+"' where title='last_car'",
 //////////////////////////////////////
 function up_picca(tx, results) {
 //alert(results.rows.length);
-$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
+$.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 
 for(i = 0; i < results.rows.length; i++) {
 if(results.rows.item(i).pic!=json.cars[i].pic){//alert('sssr'+results.rows.item(i).pic);
-DownloadFile('http://www.irannoozdah.ir/bazdid/'+json.cars[i].direct+json.cars[i].pic,json.cars[i].pic);	// دانلود عکس ها		
+DownloadFile('http://www.borna-grp.ir/'+json.cars[i].direct+json.cars[i].pic,json.cars[i].pic);	// دانلود عکس ها		
 }
 }
 });
@@ -335,7 +340,7 @@ var counts=results.rows.item(0).valuem;
 //alert(counts);
 var x=0;
 
-$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
+$.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 for(i = counts; i < json.pics.length; i++) {
 x=x+1;
 insert_pic(json.pics[i].ids, json.pics[i].pic, json.pics[i].direct,json.pics[i].id_car, json.pics[i].flag);
@@ -354,17 +359,18 @@ dbs.transaction (function(tx){insert_to_pic(tx,id,pic,direct,id_car,flag);}, err
 
 function insert_to_pic(tx,id,pic,direct,id_car,flag) {
 tx.executeSql('INSERT INTO pics(ids,pic,direct,id_car,flag) values('+id+',"'+pic+'","'+direct+'", '+id_car+' '+flag+')');
-DownloadFile('http://www.irannoozdah.ir/bazdid/'+direct+pic,pic);	// دانلود عکس ها
+DownloadFile('http://www.borna-grp.ir/'+direct+pic,pic);	// دانلود عکس ها
 }
 ///////////////////////// اپدیت  آیتم های قدیم
 
 function up_flag_pic(id,pic,direct,id_car,flag){
 var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
-dbs.transaction (function(tx){up_function_pic(tx,id,pic,direct,id_car,flag);}, testonly,errorCB );	 
+dbs.transaction (function(tx){up_function_pic(tx,id,pic,direct,id_car,flag);}, testpicd,errorCB );	 
 }
-
+function testpicd() {
+}
 function up_function_pic(tx,id,pic,direct,id_car,flag) {//alert(id);
-tx.executeSql("UPDATE pics SET  pic='"+pic+"',id_car="+id_car+",direct='"+direct+"',flag="+flag+" where ids="+id+"", [], testonly, errorCB );
+tx.executeSql("UPDATE pics SET  pic='"+pic+"',id_car="+id_car+",direct='"+direct+"',flag="+flag+" where ids="+id+"", [], testpicd, errorCB );
 }
 ////////// اپدیت تعداد ایتم های موجود در دیتا بیس محلی
 function up_last_pic(number) {
@@ -379,11 +385,11 @@ tx.executeSql("UPDATE settings SET valuem='" +number+"' where title='last_pic'",
 //////////////////////////////////////
 function up_picpi(tx, results) {
 //alert(results.rows.length);
-$.getJSON("http://www.shahreroya.ir/demo2/company.json", function(json) {
+$.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 
 for(i = 0; i < results.rows.length; i++) {
 if(results.rows.item(i).pic!=json.pics[i].pic){//alert('sssr'+results.rows.item(i).pic);
-DownloadFile('http://www.irannoozdah.ir/bazdid/'+json.pics[i].direct+json.pics[i].pic,json.pics[i].pic);	// دانلود عکس ها		
+DownloadFile('http://www.borna-grp.ir/'+json.pics[i].direct+json.pics[i].pic,json.pics[i].pic);	// دانلود عکس ها		
 }
 }
 });
@@ -420,65 +426,75 @@ false,
 //});
 }
 /////////////////////////////////////
-function onOnline() {
-alert('online');
-}
+/*function onOnline() {
+//alert('online');
+}*/
 function succOUT() {
 	alert('best');
 }
 function errOUT(err) {
 	alert('eerr-'+err.message);
 }
-
-    function onPhotoDataSuccess(imageData) {
-      // Uncomment to view the base64-encoded image data
-      // console.log(imageData);
-
-      // Get image handle
-      //
-      var smallImage = document.getElementById('smallImage');
-
-      // Unhide image elements
-      //
-      smallImage.style.display = 'block';
-
-      // Show the captured photo
-      // The in-line CSS rules are used to resize the image
-      //
-      smallImage.src = "data:image/jpeg;base64," + imageData;
-    }
-
-    // Called when a photo is successfully retrieved
-    //
-    function onPhotoURISuccess(imageURI) {
-      // Uncomment to view the image file URI
-      // console.log(imageURI);
-
-      // Get image handle
-      //
-      var largeImage = document.getElementById('largeImage');
-
-      // Unhide image elements
-      //
-      largeImage.style.display = 'block';
-
-      // Show the captured photo
-      // The in-line CSS rules are used to resize the image
-      //
-      largeImage.src = imageURI;
-    }
-    // A button will call this function
-    //
-    function getPhoto(source) {
-      // Retrieve image file location from specified source
-      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
-        destinationType: destinationType.FILE_URI,
-        sourceType: source });
-    }
-
-    // Called if something bad happens.
-    //
-    function onFail(message) {
-      alert('Failed because: ' + message);
-    }
+////////////////////////////////////////////////////////////////////////////////////
+// Called when a photo is successfully retrieved
+//
+function onPhotoURISuccessf(imageURI) {
+  var largeImage = document.getElementById('largeImage0');
+  largeImage.style.display = 'block';
+  largeImage.src = imageURI;
+}
+// A button will call this function
+//
+function getPhotof(source) {
+  // Retrieve image file location from specified source
+  navigator.camera.getPicture(onPhotoURISuccessf, onFail, { quality: 50,
+	destinationType: destinationType.FILE_URI,
+	sourceType: source });
+}
+//////////////////////////////////////////////////////////////////////////////////////
+function onPhotoURISuccessy(imageURI) {
+  var largeImage = document.getElementById('largeImage1');
+  largeImage.style.display = 'block';
+  largeImage.src = imageURI;
+}
+// A button will call this function
+//
+function getPhotoy(source) {
+  // Retrieve image file location from specified source
+  navigator.camera.getPicture(onPhotoURISuccessy, onFail, { quality: 50,
+	destinationType: destinationType.FILE_URI,
+	sourceType: source });
+}//
+/////////////////////////////////////////////////////////////////////////////////////
+function onPhotoURISuccessd(imageURI) {
+  var largeImage = document.getElementById('largeImage2');
+  largeImage.style.display = 'block';
+  largeImage.src = imageURI;
+}
+// A button will call this function
+//
+function getPhotod(source) {
+  // Retrieve image file location from specified source
+  navigator.camera.getPicture(onPhotoURISuccessd, onFail, { quality: 50,
+	destinationType: destinationType.FILE_URI,
+	sourceType: source });
+}///////////////////////////////////////////////////////////////////////////////////////
+function onPhotoURISuccesss(imageURI) {
+  var largeImage = document.getElementById('largeImage3');
+  largeImage.style.display = 'block';
+  largeImage.src = imageURI;
+}
+// A button will call this function
+//
+function getPhotos(source) {
+  // Retrieve image file location from specified source
+  navigator.camera.getPicture(onPhotoURISuccesss, onFail, { quality: 50,
+	destinationType: destinationType.FILE_URI,
+	sourceType: source });
+}
+// Called if something bad happens.
+///////////////////////////////////////////////////////////////////////////////////////
+function onFail(message) {
+  alert('Failed because: ' + message);
+}
 

@@ -2,29 +2,53 @@
 
 
 <div ng-controller="FORMCtrl" layout="column" class=" padd-48" layout-padding ng-cloak>
- <md-progress-linear class="md-warn"  ng-show="btshow"></md-progress-linear>
-  <br/>
-  <md-content class="autoScroll">
+  <md-content>
+ <p class="md-padding"> در صورتي كه از خودروي جديدي بازديد مي كنيد  كه اطلاعات آن در برنامه موجود نيست و يا تصاوير بهتري داريد مي توانيد نام خودرو، محل قرار قرارگيري شماره پلاك شاسي و تصاوير آن را جهت استفاده در برنامه براي ما ارسال كنيد.
+</p>
     <md-input-container class="md-icon-float md-block">
       <label>نام شرکت</label>
-      <md-icon md-svg-src="img/icons/wrench73.svg" class="name"></md-icon>
+      <md-icon md-svg-src="img/icons/car-settings.svg" class="name"></md-icon>
       <input ng-model="user.company" type="text">
     </md-input-container>
     <md-input-container class="md-icon-float md-block">
       <label>نام خودرو</label>
-      <md-icon md-svg-src="img/icons/window58.svg" class="name"></md-icon>
+      <md-icon md-svg-src="img/icons/car-side.svg" class="name"></md-icon>
       <input ng-model="user.cars" type="text">
     </md-input-container>
     
         <md-input-container class="md-icon-float md-block">
-      <md-icon md-svg-src="img/icons/wrenches12.svg" class="name"></md-icon>
+      <md-icon md-svg-src="img/icons/picture-frame.svg" class="name"></md-icon>
 
-    <md-button  class="md-raised md-primary" onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">انتخاب تصویر </md-button>
-        <img style="display:none;" ng-show="false" id="largeImage" src="" />
-
+    <md-button  class="md-raised md-primary" onclick="getPhotof(pictureSource.SAVEDPHOTOALBUM);">انتخاب تصویر 1</md-button>
+          
+        <img style="display:none;" width="64" height="64" id="largeImage0" src="" />
           </md-input-container>
 
-      <md-button ng-disabled="btshow" class="md-raised md-primary" ng-click="sendform();">ارسال</md-button> 
+      <md-input-container class="md-icon-float md-block">
+      <md-icon md-svg-src="img/icons/picture-frame.svg" class="name"></md-icon>
+
+    <md-button  class="md-raised md-primary" onclick="getPhotoy(pictureSource.SAVEDPHOTOALBUM);">انتخاب تصویر 2</md-button>
+          
+        <img style="display:none;"   width="64" height="64"  id="largeImage1" src="" />
+          </md-input-container>
+          
+                <md-input-container class="md-icon-float md-block">
+      <md-icon md-svg-src="img/icons/picture-frame.svg" class="name"></md-icon>
+
+    <md-button  class="md-raised md-primary" onclick="getPhotod(pictureSource.SAVEDPHOTOALBUM);">انتخاب تصویر 3</md-button>
+          
+        <img style="display:none;"   width="64" height="64"  id="largeImage2" src="" />
+          </md-input-container>
+          
+                <md-input-container class="md-icon-float md-block">
+      <md-icon md-svg-src="img/icons/picture-frame.svg" class="name"></md-icon>
+
+      <md-button  class="md-raised md-primary" onclick="getPhotos(pictureSource.SAVEDPHOTOALBUM);">انتخاب تصویر 4</md-button>
+          
+        <img style="display:none;"  width="64" height="64"  id="largeImage3" src="" />
+          </md-input-container>
+          
+<md-button ng-disabled="btshow" class="md-raised md-primary" ng-click="sendform();">ارسال</md-button> 
        </md-content>
 </div>
 

@@ -25,20 +25,20 @@
 </div>
       </md-toolbar>
       <md-content ng-controller="RightCtrl" md-swipe-right="close()" >
-      <md-list-item ng-click="go(setting.links)" ng-repeat="setting in settings">
+      <md-list-item ng-click="go(setting.links);close();" ng-repeat="setting in settings">
       <md-icon md-svg-icon="{{ setting.icon }}"></md-icon>
       <p> {{ setting.name }} </p>
       </md-list-item>
       
       <md-divider ></md-divider> 
       
-        <md-list-item ng-click="go('about/2');close();" >
+        <md-list-item ng-click="go('contact/2');close();" >
       <md-icon md-svg-icon="img/icons/worker47.svg"></md-icon>
-      <p>درباره ما </p>
+      <p>ارتباط با ما</p>
       </md-list-item>
       <md-list-item ng-click="go('about/3');close();">
       <md-icon md-svg-icon="img/icons/support.svg"></md-icon>
-      <p> راهنما </p>
+      <p> درباره ما </p>
       </md-list-item> 
       </md-content>
     </md-sidenav>
@@ -46,8 +46,8 @@
 <div>
     <md-toolbar class="fixed" ng-controller="mainController" >
       <div class="md-toolbar-tools">
-        <md-button class="md-icon-button" aria-label="Settings">
-          <md-icon md-svg-icon="img/icons/refresh62.svg"></md-icon>
+        <md-button class="md-icon-button"  ng-click="go('search/2')" aria-label="Settings">
+          <md-icon md-svg-icon="img/icons/magnifier13.svg"></md-icon>
         </md-button>   
         <md-button class="md-icon-button" ng-click="go('fav/2')" aria-label="Favorite">
           <md-icon md-svg-icon="img/icons/favorite21.svg" style="color: greenyellow;"></md-icon>
