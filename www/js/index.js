@@ -57,10 +57,10 @@ db.transaction(table, errorCB, successCB);
 }// end onDeviceBase
 
 function table(tx){    
-/*tx.executeSql('DROP TABLE IF EXISTS company');
-tx.executeSql('DROP TABLE IF EXISTS pics');
-tx.executeSql('DROP TABLE IF EXISTS cars');
-tx.executeSql('DROP TABLE IF EXISTS settings');*/
+//tx.executeSql('DROP TABLE IF EXISTS company');
+//tx.executeSql('DROP TABLE IF EXISTS pics');
+//tx.executeSql('DROP TABLE IF EXISTS cars');
+//tx.executeSql('DROP TABLE IF EXISTS settings');
 tx.executeSql('CREATE TABLE IF NOT EXISTS company(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,logo text,direct text,flag INTEGER)');
 tx.executeSql('CREATE TABLE IF NOT EXISTS pics(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,ids INTEGER, pic text,id_car INTEGER,direct text,flag INTEGER)');
 tx.executeSql('CREATE TABLE IF NOT EXISTS cars(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,bime INTEGER,pic text,direct text,company INTEGER,flag INTEGER,fav INTEGER)');

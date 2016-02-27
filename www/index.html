@@ -29,7 +29,10 @@
       <md-icon md-svg-icon="{{ setting.icon }}"></md-icon>
       <p> {{ setting.name }} </p>
       </md-list-item>
-      
+      <md-list-item ng-click="clear();close();" >
+      <md-icon md-svg-icon="img/icons/door24.svg"></md-icon>
+      <p>بارگذاری مجدد</p>
+      </md-list-item>
       <md-divider ></md-divider> 
       
         <md-list-item ng-click="go('contact/2');close();" >
@@ -44,7 +47,7 @@
     </md-sidenav>
 
 <div>
-    <md-toolbar class="fixed" ng-controller="mainController" >
+    <md-toolbar class="fixed"  >
       <div class="md-toolbar-tools">
         <md-button class="md-icon-button"  ng-click="go('search/2')" aria-label="Settings">
           <md-icon md-svg-icon="img/icons/magnifier13.svg"></md-icon>

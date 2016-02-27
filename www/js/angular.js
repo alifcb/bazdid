@@ -14,6 +14,7 @@ scotchApp.config(function($routeProvider) {
 	  
 	  .when('/home', {
 		  templateUrl : 'pages/home.html',
+		  controller  : 'Sidnav'
 	  })
 	  
 	  .when('/online', {
@@ -52,7 +53,8 @@ scotchApp.config(function($routeProvider) {
 		  templateUrl : 'pages/contact.html',
 	  })
 });
-////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////onlineCtrl
 scotchApp.controller('onlineCtrl',  function($scope,$location,$routeParams)
 {
 document.addEventListener("online", onOnline, false);
@@ -93,7 +95,7 @@ $scope.sabtcode = function() {
   headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
  })
   .success(function(data) {
-alert(data.items[0].cell);
+//alert(data.items[0].cell);
 if(data.items[0].cell!=''){
 todoService.insertcod(data.items[0].cell);
 $location.path('/home');
@@ -110,7 +112,7 @@ alert('کد خرید وارد شده صحیح نمی باشد');
 
 scotchApp.controller('mainController', function($scope, todoService,$location,$routeParams)
 {
-	
+
 document.addEventListener("backbutton", function(e){
 	if($location.path()=='/home' ){
 	e.preventDefault();
@@ -592,6 +594,12 @@ $scope.todos = items;
 
 ////////////////////////////////////////////////////////////////////////////////////sid nav
 scotchApp.controller('Sidnav', function ($scope,$location,$routeParams, $timeout, $mdSidenav, $log) {
+
+if($location.path()=='' ){
+$scope.mySwitch="true";
+}else{
+$scope.mySwitch="false";	
+}
 	$scope.go = function ( path ) { $location.path( path );};
 $scope.toggleLeft = buildDelayedToggler('left');
 $scope.toggleRight = buildToggler('right');
@@ -603,6 +611,29 @@ $scope.close = function () {
 	.then(function () {
 	});
 };
+
+$scope.clear = function () {
+var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
+db.transaction(table, errorCB);
+}// end onDeviceBase
+
+function table(tx){    
+tx.executeSql('DROP TABLE IF EXISTS company');
+tx.executeSql('DROP TABLE IF EXISTS pics');
+tx.executeSql('DROP TABLE IF EXISTS cars');
+tx.executeSql('DROP TABLE IF EXISTS settings');
+tx.executeSql('CREATE TABLE IF NOT EXISTS company(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,logo text,direct text,flag INTEGER)');
+tx.executeSql('CREATE TABLE IF NOT EXISTS pics(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,ids INTEGER, pic text,id_car INTEGER,direct text,flag INTEGER)');
+tx.executeSql('CREATE TABLE IF NOT EXISTS cars(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,bime INTEGER,pic text,direct text,company INTEGER,flag INTEGER,fav INTEGER)');
+tx.executeSql('CREATE TABLE IF NOT EXISTS settings(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, title text,valuem text)');
+//tx.executeSql('INSERT INTO settings(title,valuem) values("flag_one","1")');
+}
+
+///////////////////////////////////////error db
+function errorCB(err) {
+	console.log("Error processing SQLm: "+err.message);
+}
+
 /**
  * Supplies a function that will continue to operate until the
  * time is up.
