@@ -14,7 +14,7 @@ var app = {
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {//alert('salam');
+    onDeviceReady: function() {alert('salam');
         app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
@@ -29,24 +29,8 @@ var app = {
     }
 };
 
-document.addEventListener("online", onDeviceBase, false);
+document.addEventListener('deviceready', onDeviceBase, false);
 
-///////////////////////////////////////////////////////
-/*var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
-dbs.transaction(function(tx){           
-tx.executeSql("SELECT * FROM company where flag=1", [],
-function(tx, rs){    
-	var rows = rs.rows;
-	if (rows.length>0) {
-		var json_arr =  [];  
-		for(var i = 0; i < rows.length; i++) {
-			var row = rows.item(i);
-			var obj = {name: row.name,logo:row.logo,comment:row.comment,comment:row.comment};
-			json_arr.push(obj);
-		}                         
-	}    
-var sssc=JSON.stringify(json_arr);
-})}); */
 ////////////////////////////////////
 function onDeviceBase() {
 pictureSource=navigator.camera.PictureSourceType;
@@ -58,10 +42,10 @@ db.transaction(table, errorCB, successCB);
 // end onDeviceBase
 
 function table(tx){    
-//tx.executeSql('DROP TABLE IF EXISTS company');
-//tx.executeSql('DROP TABLE IF EXISTS pics');
-//tx.executeSql('DROP TABLE IF EXISTS cars');
-//tx.executeSql('DROP TABLE IF EXISTS settings');
+tx.executeSql('DROP TABLE IF EXISTS company');
+tx.executeSql('DROP TABLE IF EXISTS pics');
+tx.executeSql('DROP TABLE IF EXISTS cars');
+tx.executeSql('DROP TABLE IF EXISTS settings');
 tx.executeSql('CREATE TABLE IF NOT EXISTS company(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,logo text,direct text,flag INTEGER)');
 tx.executeSql('CREATE TABLE IF NOT EXISTS pics(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,ids INTEGER, pic text,id_car INTEGER,direct text,flag INTEGER)');
 tx.executeSql('CREATE TABLE IF NOT EXISTS cars(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,bime INTEGER,pic text,direct text,company INTEGER,flag INTEGER,fav INTEGER)');
@@ -81,23 +65,26 @@ db.transaction(flag_one, errorSE);
 
 //////////////////////////////////// مرحله سنجش فلگ بار اول
 function flag_one(tx) {
-tx.executeSql('SELECT * FROM company', [], up_picco, errorCB);
-tx.executeSql('SELECT * FROM cars', [], up_picca, errorCB);
-tx.executeSql('SELECT * FROM pics', [], up_picpi, errorCB);
+
 tx.executeSql('SELECT * FROM settings where title="last_co"', [], flagSuccess, errorSE);
 tx.executeSql('SELECT * FROM settings where title="last_car"', [], again_car, errorSE);
 tx.executeSql('SELECT * FROM settings where title="last_pic"', [], again_pic, errorSE);
+tx.executeSql('SELECT * FROM company', [], up_picco, errorCB);
+tx.executeSql('SELECT * FROM cars', [], up_picca, errorCB);
+tx.executeSql('SELECT * FROM pics', [], up_picpi, errorCB);
 }
 
 ////////////////////////////////////زمانی که بار اول ننننیست
 function flagSuccess(tx, results) {
+
 var counts=results.rows.item(0).valuem;
-//alert(counts);
+alert(counts);
 var x=0;
 //DownloadFile("http://www.borna-grp.ir/demo2/company.json",company.json);
 $.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 for(i = counts; i < json.items.length; i++) {
 x=x+1;
+alert('company');
 testo(json.items[i].ids, json.items[i].name, json.items[i].pic, json.items[i].direct, json.items[i].comment, json.items[i].flag);
 if(x==1){up_last(json.items.length);}
 }
@@ -141,6 +128,7 @@ tx.executeSql("UPDATE settings SET valuem='"+number+"' where title='last_co'", [
 
 //////////////////////////////////////
 function up_picco(tx, results) {
+	alert('company_pic');
 //alert(results.rows.length);
 $.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 
@@ -172,6 +160,7 @@ console.log( out);
 
 /////////////////////////////////////////////زمانی که بار اول اجرای برنامه هست
 function errorSE(err) {
+	alert('bar_aval');
 DownloadFile('http://www.borna-grp.ir/images/.nomedia','.nomedia');	// file nomedia
 //console.log("Error processing SQL2: "+err.message);
 //alert('out');
@@ -271,6 +260,7 @@ function erro(err) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////cars
 function again_car(tx, results) {
+	alert('car');
 var counts=results.rows.item(0).valuem;
 //alert(counts);
 var x=0;
@@ -324,6 +314,7 @@ tx.executeSql("UPDATE settings SET valuem='" +number+"' where title='last_car'",
 
 //////////////////////////////////////
 function up_picca(tx, results) {
+	alert('car_pic');
 //alert(results.rows.length);
 $.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 
@@ -337,6 +328,7 @@ DownloadFile('http://www.borna-grp.ir/'+json.cars[i].direct+json.cars[i].pic,jso
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////pic_cars
 function again_pic(tx, results) {
+	alert('pics');
 var counts=results.rows.item(0).valuem;
 //alert(counts);
 var x=0;
@@ -385,6 +377,7 @@ tx.executeSql("UPDATE settings SET valuem='" +number+"' where title='last_pic'",
 
 //////////////////////////////////////
 function up_picpi(tx, results) {
+	alert('pics_pic');
 //alert(results.rows.length);
 $.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 
@@ -395,9 +388,6 @@ DownloadFile('http://www.borna-grp.ir/'+json.pics[i].direct+json.pics[i].pic,jso
 }
 });
 }
-
-
-
 //////////////////////////////////////////////////download
 function DownloadFile(URL, File_Name) {
 	
@@ -427,9 +417,7 @@ false,
 //});
 }
 /////////////////////////////////////
-/*function onOnline() {
-//alert('online');
-}*/
+
 function succOUT() {
 	alert('best');
 }
