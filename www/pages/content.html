@@ -12,14 +12,15 @@
             <md-button class="md-icon-button" aria-label="Settings">
               <md-icon ng-click="downloadimg(item.srcpic,item.direct,item.picname,item.id)"  md-svg-icon="img/icons/progress12.svg"></md-icon>
             </md-button>
-            <md-button class="md-icon-button" aria-label="Share">
+            <!--<md-button class="md-icon-button" aria-label="Share">
               <md-icon md-svg-icon="img/icons/document4.svg"></md-icon>
-            </md-button>
+            </md-button>-->
           </md-card-actions>
         </md-card-content>    
            <md-card-title class="padding15">
           <md-card-title-text>
             <span class="md-headline">{{item.name}}</span>
+            <span class="md-subhead">شرکت سازنده: {{item.co_name}}</span>
             <span class="md-subhead">محل قرارگيري شماره شاسي: {{item.comment}}</span>
             <span class="md-subhead">حق بیمه شخص ثالث:{{item.bime}} ریال</span>
           </md-card-title-text>

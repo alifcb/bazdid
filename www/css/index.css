@@ -100,3 +100,21 @@ md-toast .md-toast-content{text-align:right !important;
 direction:rtl !important;
 }
 md-list-item .md-avatar .moraba,md-list-item .md-avatar-icon,md-list-item .md-list-item-inner .md-avatar.moraba,md-list-item .md-list-item-inner .md-avatar-icon{margin-top:8px;margin-bottom:8px;margin-right:16px;border-radius:0% !important;box-sizing:content-box}
+
+.acc {
+    background: #058dc7 none repeat scroll 0 0;
+}
+.center {
+    border-radius: 3px;
+    color: #ffffff;
+    cursor: pointer;
+    direction: ltr;
+    font-family: Tahoma,Geneva,sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 19px;
+    margin: 4px;
+    padding: 5px 8px 6px;
+    text-align: left;
+	text-decoration:none;
+}

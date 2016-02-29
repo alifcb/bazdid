@@ -54,7 +54,8 @@ destinationType=navigator.camera.DestinationType;
 
 var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 db.transaction(table, errorCB, successCB);
-}// end onDeviceBase
+}
+// end onDeviceBase
 
 function table(tx){    
 //tx.executeSql('DROP TABLE IF EXISTS company');
@@ -406,12 +407,12 @@ fileTransfer.download(
 uri,
 "file:///storage/sdcard0/bazdid/images/"+File_Name,
 function(entt) {
-  console.log("download complete2: " + entt.toURL());
+  //console.log("download complete2: " + entt.toURL());
 },
 function(error) {
-  console.log("download error source " + error.source);
-  console.log("download error target " + error.target);
-  console.log("upload error code" + error.message);
+//  console.log("download error source " + error.source);
+ // console.log("download error target " + error.target);
+  //console.log("upload error code" + error.message);
 },
 false,
 {

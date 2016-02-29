@@ -4,6 +4,10 @@
 //    $rootScope.test = new Date();
 //})
 // configure our routes
+scotchApp.factory("user",function(){
+        return {};
+});
+
 scotchApp.config(function($routeProvider) {	  
 
   $routeProvider
@@ -52,6 +56,9 @@ scotchApp.config(function($routeProvider) {
 	  .when('/contact/:param1', {
 		  templateUrl : 'pages/contact.html',
 	  })
+	  .when('/setting/:param1', {
+		  templateUrl : 'pages/setting.html',
+	  })
 });
 
 ////////////////////////////////////////////////////////onlineCtrl
@@ -67,12 +74,12 @@ scotchApp.controller('StarterCtr',  function($scope, todoService,$location,$rout
 {
 $scope.go = function ( path ) {$location.path( path );};
 
-
 todoService.idreg().then(function(items)
 {
 	$scope.regiser = items;
 	if($scope.regiser){
 	$location.path('/home');
+	return 0;
 	}else{
 	document.addEventListener("offline", onOffline, false);
 	  function onOffline() {
@@ -110,9 +117,11 @@ alert('کد خرید وارد شده صحیح نمی باشد');
 
 /////////////////////////////
 
-scotchApp.controller('mainController', function($scope, todoService,$location,$routeParams)
+scotchApp.controller('mainController', function($scope,user, todoService,$location,$routeParams)
 {
-
+ $scope.user = user;
+ $scope.user.bazdid = "بازدید اولیه برنا";
+  $scope.user.namia = false;
 document.addEventListener("backbutton", function(e){
 	if($location.path()=='/home' ){
 	e.preventDefault();
@@ -189,7 +198,80 @@ scotchApp.service('todoService', function($q)
     }
 });
 
+///////////////////////////////////////////////////setting
+scotchApp.controller('settingCtrl', function($scope,$route,$location,$routeParams,$route,$timeout,$mdToast)
+{
+$scope.clear = function () {
+var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
+db.transaction(table, errorCB);
+$mdToast.show(
+      $mdToast.simple()
+        .textContent(' حذف اطلاعات با موفقیت انجام شد!')
+        .position('bottom right')
+        .hideDelay(5000)
+);
+}// end onDeviceBase
 
+function table(tx){    
+tx.executeSql('DROP TABLE IF EXISTS company');
+tx.executeSql('DROP TABLE IF EXISTS pics');
+tx.executeSql('DROP TABLE IF EXISTS cars');
+
+tx.executeSql('CREATE TABLE IF NOT EXISTS company(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,logo text,direct text,flag INTEGER)');
+tx.executeSql('CREATE TABLE IF NOT EXISTS pics(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,ids INTEGER, pic text,id_car INTEGER,direct text,flag INTEGER)');
+tx.executeSql('CREATE TABLE IF NOT EXISTS cars(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,bime INTEGER,pic text,direct text,company INTEGER,flag INTEGER,fav INTEGER)');
+tx.executeSql('CREATE TABLE IF NOT EXISTS settings(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, title text,valuem text)');
+tx.executeSql('DELETE FROM settings where title<>"id_reg"');
+}
+
+function errorCB(err) {
+	console.log("Error processing SQLm: "+err.message);
+}
+
+$scope.update_co = function () {
+
+$.getJSON("http://www.borna-grp.ir/company.json", function(json) {
+$mdToast.show(
+      $mdToast.simple()
+        .textContent('در حال دریافت تصاویر...')
+        .position('bottom right')
+        .hideDelay(10000)
+);
+for(i = 0; i < json.items.length; i++) {
+//alert(json.items[i].pic);
+testo( json.items[i].pic, json.items[i].direct);} 
+if(i==json.items.length-1){
+
+} 
+});
+
+
+
+function testo(id,pic,direct) {
+DownloadFile('http://www.borna-grp.ir/'+direct+pic,pic);	 
+}
+function DownloadFile(URL, File_Name) {
+var fileTransfer = new FileTransfer();
+var uri = encodeURI(URL);
+fileTransfer.download(
+uri,
+"file:///storage/sdcard0/bazdid/images/"+File_Name,
+function(entt) {
+ console.log("download complete2: " + entt.toURL());
+},
+function(error) {
+},
+false,
+{
+headers: {
+  "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+}
+}
+);
+
+}
+}
+});
 //////////////////////////////////////////////////////////////////////////////////////////////
 scotchApp.controller('listAppCtrl', function($scope,todoServicex,$location,$routeParams)
 {
@@ -300,7 +382,7 @@ todoServicez.iffav(page1).then(function(items)
 if(items[0].fav==1){
 	$scope.iconslike="img/icons/plain-heart.svg";
 	}else{
-		$scope.iconslike="img/icons/like80.svg";
+	$scope.iconslike="img/icons/like80.svg";
 	}
 });
 
@@ -311,7 +393,7 @@ $scope.iconslike="img/icons/plain-heart.svg";
 todoServicez.faverat(id_var);
 $mdToast.show(
       $mdToast.simple()
-        .textContent('این خودرو با موفقیت در لیست مورد علایق شما قرار گرفت!')
+        .textContent('این خودرو با موفقیت در لیست علاقه مندی های شما قرار گرفت!')
         .position('bottom right')
         .hideDelay(5000)
 );
@@ -397,11 +479,11 @@ this.carme = function(para)
 	  deferred = $q.defer();
 	  var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 	  db.transaction(function(tx) 
-	  { tx.executeSql("select * from cars where ids="+idcom, [], function(tx, res) 
+	  { tx.executeSql("select cars.*,company.name AS co_name from cars INNER JOIN company ON company.ids = cars.company where cars.ids="+idcom, [], function(tx, res) 
 		  { 
 			  for(var i = 0; i < res.rows.length; i++)
 			  {//alert(res.rows.item(i).pic);
-		  result.push({id : res.rows.item(i).ids, name : res.rows.item(i).name,bime : res.rows.item(i).bime, picname: res.rows.item(i).pic, direct: res.rows.item(i).direct, srcpic: 'http://www.borna-grp.ir/', company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
+		  result.push({id : res.rows.item(i).ids, name : res.rows.item(i).name,co_name : res.rows.item(i).co_name,bime : res.rows.item(i).bime, picname: res.rows.item(i).pic, direct: res.rows.item(i).direct, srcpic: 'http://www.borna-grp.ir/', company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
 		  }
 		  deferred.resolve(result);
 		});
@@ -517,6 +599,7 @@ this.faverat = function(idss)
         });
         return false;
     }
+	
 });
 
 ///////////////////////////////////////////////////FORMCtrl
@@ -525,6 +608,16 @@ scotchApp.controller('FORMCtrl', function($scope, todoServicez,$location,$routeP
 
 $scope.users = {};	
 $scope.sendform = function(urlpic) {
+//	alert($scope.user.company);
+var laImage = document.getElementById('largeImage0').src;	
+if(!$scope.user.company || !$scope.user.cars){
+$mdToast.show(
+      $mdToast.simple()
+        .textContent('لطفا  نام خودرو و نام شرکت را وارد کنید!')
+        .position('bottom right')
+        .hideDelay(3500)
+);
+}else{	
 $scope.btshow=true;
 $mdToast.show(
       $mdToast.simple()
@@ -533,11 +626,13 @@ $mdToast.show(
         .hideDelay(3500)
 );
 
-	for(var i = 0; i < 4; i++){
+for(var i = 0; i < 4; i++){
 var d = new Date();	
 namefile=d.getTime()+i+'.jpg';
 var largeImage = document.getElementById('largeImage'+i);
+
  imageURI=largeImage.src;
+ if(imageURI!=''){
 if(i==4){ends='end'}else{ends='no'}
 todoServicez.UserImg(imageURI,namefile,ends).then(function(items)
 {
@@ -553,7 +648,7 @@ $mdToast.show(
 );
 }
 });
-
+ }
   $http({
   method  : 'POST',
   url     : 'http://www.borna-grp.ir/sabt_kh.php',
@@ -569,6 +664,7 @@ $mdToast.show(
   });
 };
 }
+}//if else
 });
 
 ///////////////////////////////////////////////////showfav
@@ -593,46 +689,24 @@ $scope.todos = items;
 });
 
 ////////////////////////////////////////////////////////////////////////////////////sid nav
-scotchApp.controller('Sidnav', function ($scope,$location,$routeParams, $timeout, $mdSidenav, $log) {
+scotchApp.controller('Sidnav', function ($scope,user,$location,$routeParams, $timeout, $mdSidenav, $log) {
+ $scope.user = user;
+ $scope.user.bazdid = "فعالسازی برنامه";
+ $scope.user.namia = true;
 
-if($location.path()=='' ){
-$scope.mySwitch="true";
-}else{
-$scope.mySwitch="false";	
-}
-	$scope.go = function ( path ) { $location.path( path );};
+$scope.go = function ( path ) { $location.path( path );};
 $scope.toggleLeft = buildDelayedToggler('left');
 $scope.toggleRight = buildToggler('right');
 $scope.isOpenRight = function(){
   return $mdSidenav('right').isOpen();
 };
+
 $scope.close = function () {
   $mdSidenav('right').close()
 	.then(function () {
 	});
 };
 
-$scope.clear = function () {
-var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
-db.transaction(table, errorCB);
-}// end onDeviceBase
-
-function table(tx){    
-tx.executeSql('DROP TABLE IF EXISTS company');
-tx.executeSql('DROP TABLE IF EXISTS pics');
-tx.executeSql('DROP TABLE IF EXISTS cars');
-tx.executeSql('DROP TABLE IF EXISTS settings');
-tx.executeSql('CREATE TABLE IF NOT EXISTS company(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,logo text,direct text,flag INTEGER)');
-tx.executeSql('CREATE TABLE IF NOT EXISTS pics(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,ids INTEGER, pic text,id_car INTEGER,direct text,flag INTEGER)');
-tx.executeSql('CREATE TABLE IF NOT EXISTS cars(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,bime INTEGER,pic text,direct text,company INTEGER,flag INTEGER,fav INTEGER)');
-tx.executeSql('CREATE TABLE IF NOT EXISTS settings(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, title text,valuem text)');
-//tx.executeSql('INSERT INTO settings(title,valuem) values("flag_one","1")');
-}
-
-///////////////////////////////////////error db
-function errorCB(err) {
-	console.log("Error processing SQLm: "+err.message);
-}
 
 /**
  * Supplies a function that will continue to operate until the
@@ -685,6 +759,6 @@ $mdSidenav('right').close()
 $scope.settings = [
   { name: 'لیست شرکت ها', icon: 'img/icons/collision.svg', links: '/home' },
   { name: 'لیست خودرو ها',  icon: 'img/icons/transport103.svg', links: '/search/2'  },
-  { name: 'تنظیمات',  icon: 'img/icons/three115.svg', links: '/about/2'  },
+  { name: 'تنظیمات',  icon: 'img/icons/three115.svg', links: '/setting/2'  },
   ];
 });
