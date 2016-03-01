@@ -14,7 +14,7 @@ var app = {
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {alert('salam');
+    onDeviceReady: function() {//alert('salam');
         app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
@@ -33,8 +33,7 @@ document.addEventListener('deviceready', onDeviceBase, false);
 
 ////////////////////////////////////
 function onDeviceBase() {
-pictureSource=navigator.camera.PictureSourceType;
-destinationType=navigator.camera.DestinationType;
+
 
 var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 db.transaction(table, errorCB, successCB);
@@ -78,13 +77,13 @@ tx.executeSql('SELECT * FROM pics', [], up_picpi, errorCB);
 function flagSuccess(tx, results) {
 
 var counts=results.rows.item(0).valuem;
-alert(counts);
+//alert(counts);
 var x=0;
 //DownloadFile("http://www.borna-grp.ir/demo2/company.json",company.json);
 $.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 for(i = counts; i < json.items.length; i++) {
 x=x+1;
-alert('company');
+//alert('company');
 testo(json.items[i].ids, json.items[i].name, json.items[i].pic, json.items[i].direct, json.items[i].comment, json.items[i].flag);
 if(x==1){up_last(json.items.length);}
 }
@@ -128,7 +127,7 @@ tx.executeSql("UPDATE settings SET valuem='"+number+"' where title='last_co'", [
 
 //////////////////////////////////////
 function up_picco(tx, results) {
-	alert('company_pic');
+//alert('company_pic');
 //alert(results.rows.length);
 $.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 
@@ -160,7 +159,7 @@ console.log( out);
 
 /////////////////////////////////////////////زمانی که بار اول اجرای برنامه هست
 function errorSE(err) {
-	alert('bar_aval');
+//alert('bar_aval');
 DownloadFile('http://www.borna-grp.ir/images/.nomedia','.nomedia');	// file nomedia
 //console.log("Error processing SQL2: "+err.message);
 //alert('out');
@@ -248,11 +247,11 @@ tx.executeSql('INSERT INTO pics(ids,pic,direct,id_car,flag) values('+id+',"'+pic
 
 ///////////////////
 function succ() {
-	alert('best');
+alert('best');
 }
 
 function erro(err) {
-	alert('erro-'+err.message);
+alert('erro-'+err.message);
 }
 
 }
@@ -260,7 +259,7 @@ function erro(err) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////cars
 function again_car(tx, results) {
-	alert('car');
+//alert('car');
 var counts=results.rows.item(0).valuem;
 //alert(counts);
 var x=0;
@@ -314,7 +313,7 @@ tx.executeSql("UPDATE settings SET valuem='" +number+"' where title='last_car'",
 
 //////////////////////////////////////
 function up_picca(tx, results) {
-	alert('car_pic');
+//alert('car_pic');
 //alert(results.rows.length);
 $.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 
@@ -328,7 +327,7 @@ DownloadFile('http://www.borna-grp.ir/'+json.cars[i].direct+json.cars[i].pic,jso
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////pic_cars
 function again_pic(tx, results) {
-	alert('pics');
+//alert('pics');
 var counts=results.rows.item(0).valuem;
 //alert(counts);
 var x=0;
@@ -377,7 +376,7 @@ tx.executeSql("UPDATE settings SET valuem='" +number+"' where title='last_pic'",
 
 //////////////////////////////////////
 function up_picpi(tx, results) {
-	alert('pics_pic');
+//alert('pics_pic');
 //alert(results.rows.length);
 $.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 

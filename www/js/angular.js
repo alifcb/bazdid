@@ -605,7 +605,8 @@ this.faverat = function(idss)
 ///////////////////////////////////////////////////FORMCtrl
 scotchApp.controller('FORMCtrl', function($scope, todoServicez,$location,$routeParams,$sce,$http,$mdToast)
 {
-
+pictureSource=navigator.camera.PictureSourceType;
+destinationType=navigator.camera.DestinationType;
 $scope.users = {};	
 $scope.sendform = function(urlpic) {
 //	alert($scope.user.company);
