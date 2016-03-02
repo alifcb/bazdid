@@ -72,6 +72,7 @@ $location.path('/');
 ////////////////////////////////////////////////////////////	
 scotchApp.controller('StarterCtr',  function($scope, todoService,$location,$routeParams,$sce,$http)
 {
+
 $scope.go = function ( path ) {$location.path( path );};
 
 todoService.idreg().then(function(items)
@@ -95,10 +96,12 @@ $scope.movie = {src:"http://www.borna-grp.ir/req.php", title:"واریز به ح
 /////////////////////////////////////////////////////////////////////
 $scope.user = {};
 $scope.sabtcode = function() {
+var uid = device.uuid;
+
   $http({
   method  : 'POST',
   url     : 'http://www.borna-grp.ir/sabt_kh.php',
-  data    : $.param({name: $scope.user.fname, mname:$scope.user.name, codes:$scope.user.code}),  // pass in data as strings
+  data    : $.param({name: $scope.user.fname, mname:$scope.user.name,userid:uid, codes:$scope.user.code}),  // pass in data as strings
   headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
  })
   .success(function(data) {
@@ -609,22 +612,22 @@ pictureSource=navigator.camera.PictureSourceType;
 destinationType=navigator.camera.DestinationType;
 $scope.users = {};	
 $scope.sendform = function(urlpic) {
-//	alert($scope.user.company);
+$scope.user.company='no';
 var laImage = document.getElementById('largeImage0').src;	
 if(!$scope.user.company || !$scope.user.cars){
 $mdToast.show(
       $mdToast.simple()
-        .textContent('لطفا  نام خودرو و نام شرکت را وارد کنید!')
+        .textContent('لطفا  نام خودرو را وارد کنید!')
         .position('bottom right')
         .hideDelay(3500)
 );
 }else{	
 $scope.btshow=true;
 $mdToast.show(
-      $mdToast.simple()
-        .textContent('برنامه در حال ارسال اطلاعات می باشد لطفا منتظر بمانید!')
-        .position('bottom right')
-        .hideDelay(3500)
+$mdToast.simple()
+  .textContent('برنامه در حال ارسال اطلاعات می باشد لطفا منتظر بمانید!')
+  .position('bottom right')
+  .hideDelay(3500)
 );
 
 for(var i = 0; i < 4; i++){
@@ -632,7 +635,7 @@ var d = new Date();
 namefile=d.getTime()+i+'.jpg';
 var largeImage = document.getElementById('largeImage'+i);
 
- imageURI=largeImage.src;
+imageURI=largeImage.src;
  if(imageURI!=''){
 if(i==4){ends='end'}else{ends='no'}
 todoServicez.UserImg(imageURI,namefile,ends).then(function(items)
@@ -642,10 +645,10 @@ if(items=='end'){
 $scope.btshow=false;	
 
 $mdToast.show(
-      $mdToast.simple()
-	  .textContent('ارسال به اتمام رسید')
-	  .position('bottom right')
-	  .hideDelay(4000)
+  $mdToast.simple()
+  .textContent('ارسال به اتمام رسید')
+  .position('bottom right')
+  .hideDelay(4000)
 );
 }
 });
@@ -673,10 +676,10 @@ scotchApp.controller('Showfav', function($scope,todoServicex,$location,$routePar
 {
 $scope.query = '';
 $scope.search = function (user) {
-  var query = $scope.query.toLowerCase(),
-  name = user.name.toLowerCase();
+var query = $scope.query.toLowerCase(),
+name = user.name.toLowerCase();
 
-  if (name.indexOf(query) != -1) {
+if (name.indexOf(query) != -1) {
     return true;
   }
   return false;
@@ -691,9 +694,9 @@ $scope.todos = items;
 
 ////////////////////////////////////////////////////////////////////////////////////sid nav
 scotchApp.controller('Sidnav', function ($scope,user,$location,$routeParams, $timeout, $mdSidenav, $log) {
- $scope.user = user;
- $scope.user.bazdid = "فعالسازی برنامه";
- $scope.user.namia = true;
+$scope.user = user;
+$scope.user.bazdid = "فعالسازی برنامه";
+$scope.user.namia = true;
 
 $scope.go = function ( path ) { $location.path( path );};
 $scope.toggleLeft = buildDelayedToggler('left');
@@ -758,7 +761,7 @@ $mdSidenav('right').close()
   });
 }; 
 $scope.settings = [
-  { name: 'لیست شرکت ها', icon: 'img/icons/collision.svg', links: '/home' },
+  { name: 'لیست شرکت ها', icon: 'img/icons/automobile-salesman.svg', links: '/home' },
   { name: 'لیست خودرو ها',  icon: 'img/icons/transport103.svg', links: '/search/2'  },
   { name: 'تنظیمات',  icon: 'img/icons/three115.svg', links: '/setting/2'  },
   ];

@@ -428,7 +428,7 @@ function errOUT(err) {
 //
 function onPhotoURISuccessf(imageURI) {
   var largeImage = document.getElementById('largeImage0');
-  largeImage.style.display = 'block';
+  largeImage.style.display = 'inline';
   largeImage.src = imageURI;
 }
 // A button will call this function
@@ -442,7 +442,7 @@ function getPhotof(source) {
 //////////////////////////////////////////////////////////////////////////////////////
 function onPhotoURISuccessy(imageURI) {
   var largeImage = document.getElementById('largeImage1');
-  largeImage.style.display = 'block';
+  largeImage.style.display = 'inline';
   largeImage.src = imageURI;
 }
 // A button will call this function
@@ -456,7 +456,7 @@ function getPhotoy(source) {
 /////////////////////////////////////////////////////////////////////////////////////
 function onPhotoURISuccessd(imageURI) {
   var largeImage = document.getElementById('largeImage2');
-  largeImage.style.display = 'block';
+  largeImage.style.display = 'inline';
   largeImage.src = imageURI;
 }
 // A button will call this function
@@ -469,7 +469,7 @@ function getPhotod(source) {
 }///////////////////////////////////////////////////////////////////////////////////////
 function onPhotoURISuccesss(imageURI) {
   var largeImage = document.getElementById('largeImage3');
-  largeImage.style.display = 'block';
+  largeImage.style.display = 'inline';
   largeImage.src = imageURI;
 }
 // A button will call this function

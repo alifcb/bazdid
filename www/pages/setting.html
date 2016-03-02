@@ -1,18 +1,25 @@
-<div ng-controller="settingCtrl" ng-cloak   class=" padd-65 md-padding" >
+<div ng-controller="settingCtrl" ng-cloak   class=" padd-65 " >
   <md-content>
-    <md-list>
-   <md-list-item ng-click="update_co();"  class="md-2-line" >
-        <md-icon md-svg-icon="img/icons/worker47.svg" ></md-icon>
+<md-toolbar class="md-warn">
+<div class="md-toolbar-tools">
+<h2 class="md-flex">تنظیمات</h2>
+</div>
+</md-content>
+</md-toolbar>
+<md-content class=" md-padding">
+    <md-list >
+   <md-list-item ng-click="update_co();"  class="md-2-line " >
+        <md-icon md-svg-icon="img/icons/download-tray.svg" ></md-icon>
         <div class="md-list-item-text" >
           <h3> بروز رسانی تصاویر شرکت ها</h3>
           <p> با انتخاب این گزینه تصاویر شرکت ها در بخش اول برنامه مجددا بارگزاری میشود (نیازمند اینترنت)</p>
         </div>
       </md-list-item>
- <md-list-item ng-click="clear();"  class="md-2-line" >
-    <md-icon md-svg-icon="img/icons/worker47.svg" ></md-icon>
+ <md-list-item ng-click="clear();"  class="md-2-line md-padding" >
+    <md-icon md-svg-icon="img/icons/delete-symbol-option.svg" ></md-icon>
     <div class="md-list-item-text" >
-      <h3> پاک کردن اطلاعات برنامه</h3>
-      <p> با انتخاب این گزینه اطلاعات برنامه پاک می شود و از اطلاعات برنامه مجددا از اینترننت بارگذاری می شود.</p>
+      <h3> حذف اطلاعات برنامه و دريافت مجدد</h3>
+      <p> با انتخاب اين گزينه تمامي اطلاعات خودروها و تصاوير آنها حذف و مجددا از سرور بارگذاري ميگردد. براي اينكار نياز به خروج و ورود مجدد به برنامه داريد.</p>
     </div>
   </md-list-item>   
     </md-list>
