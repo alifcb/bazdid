@@ -565,11 +565,11 @@ db.transaction(function(tx)
 return true;
 },
 this.UserImg=function(imageURI,file_name,counts){
+         	var deferred, result = [];
             var deferred = $q.defer();
 			var options = new FileUploadOptions();
 			options.fileKey="file";
 			options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
-alert(counts);
 			var params = {};
 			params.value1 = file_name;
 			params.value2  = counts;
@@ -578,7 +578,7 @@ alert(counts);
 			ft.upload(imageURI, encodeURI('http://www.borna-grp.ir/sabt_kh.php'),
 				function(r){
 					console.log("Code = " + r.responseCode);
-					console.log("Response = " + r.response);
+					alert("Response = " + r.response);
 					console.log("Sent = " + r.bytesSent);
 					deferred.resolve(r.response);
 
@@ -643,7 +643,7 @@ imageURI=largeImage.src;
 if(i==3){ends='end'}else{ends='no'}
 todoServicez.UserImg(imageURI,namefile,ends).then(function(items)
 {
-alert(items);
+//alert(items);
 if(items=='end'){
 $scope.btshow=false;	
 
