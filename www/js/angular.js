@@ -639,11 +639,11 @@ namefile=d.getTime()+'.jpg';
 var largeImage = document.getElementById('largeImage'+i);
 
 imageURI=largeImage.src;
-alert(imageURI);
+//alert(imageURI);
 if(i==3){ends='end'}else{ends='no'}
 todoServicez.UserImg(imageURI,namefile,ends).then(function(items)
 {
-//alert(items);
+alert(items);
 if(items=='end'){
 $scope.btshow=false;	
 
