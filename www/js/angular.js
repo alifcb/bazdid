@@ -53,6 +53,9 @@ scotchApp.config(function($routeProvider) {
 	  .when('/about/:param1', {
 		  templateUrl : 'pages/about.html',
 	  })
+	  .when('/help/:param1', {
+		  templateUrl : 'pages/help.html',
+	  })
 	  .when('/contact/:param1', {
 		  templateUrl : 'pages/contact.html',
 	  })
@@ -566,7 +569,7 @@ this.UserImg=function(imageURI,file_name,counts){
 			var options = new FileUploadOptions();
 			options.fileKey="file";
 			options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
-
+alert(counts);
 			var params = {};
 			params.value1 = file_name;
 			params.value2  = counts;
@@ -581,7 +584,7 @@ this.UserImg=function(imageURI,file_name,counts){
 
 				},
 				function(error){
-					//alert("An error has occurred: Code = " + error.code);
+					alert("An error has occurred: Code = " + error.code);
 					console.error("upload error source " + error.source);
 					console.error("upload error target " + error.target);
 					deferred.reject(error);
@@ -613,7 +616,7 @@ destinationType=navigator.camera.DestinationType;
 $scope.users = {};	
 $scope.sendform = function(urlpic) {
 $scope.user.company='no';
-var laImage = document.getElementById('largeImage0').src;	
+//var laImage = document.getElementById('largeImage0').src;	
 if(!$scope.user.company || !$scope.user.cars){
 $mdToast.show(
       $mdToast.simple()
@@ -632,15 +635,15 @@ $mdToast.simple()
 
 for(var i = 0; i < 4; i++){
 var d = new Date();	
-namefile=d.getTime()+i+'.jpg';
+namefile=d.getTime()+'.jpg';
 var largeImage = document.getElementById('largeImage'+i);
 
 imageURI=largeImage.src;
- if(imageURI!=''){
-if(i==4){ends='end'}else{ends='no'}
+//alert(imageURI);
+if(i==3){ends='end'}else{ends='no'}
 todoServicez.UserImg(imageURI,namefile,ends).then(function(items)
 {
-//alert(items);
+alert(items);
 if(items=='end'){
 $scope.btshow=false;	
 
@@ -652,7 +655,7 @@ $mdToast.show(
 );
 }
 });
- }
+ 
   $http({
   method  : 'POST',
   url     : 'http://www.borna-grp.ir/sabt_kh.php',
@@ -661,14 +664,10 @@ $mdToast.show(
  })
   .success(function(data) {
    // alert(data.items[0].cell);
-	if(data.items[0].cell!=''){
-	$location.path('/home');
-	}
-
   });
 };
 }
-}//if else
+}
 });
 
 ///////////////////////////////////////////////////showfav
