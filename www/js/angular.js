@@ -584,7 +584,7 @@ this.UserImg=function(imageURI,file_name,counts){
 
 				},
 				function(error){
-					alert("An error has occurred: Code = " + error.code);
+					//alert("An error has occurred: Code = " + error.code);
 					console.error("upload error source " + error.source);
 					console.error("upload error target " + error.target);
 					deferred.reject(error);
