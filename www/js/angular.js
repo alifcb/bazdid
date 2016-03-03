@@ -569,7 +569,7 @@ this.UserImg=function(imageURI,file_name,counts){
 			var options = new FileUploadOptions();
 			options.fileKey="file";
 			options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
-alert(counts);
+//alert(counts);
 			var params = {};
 			params.value1 = file_name;
 			params.value2  = counts;
@@ -643,7 +643,7 @@ imageURI=largeImage.src;
 if(i==3){ends='end'}else{ends='no'}
 todoServicez.UserImg(imageURI,namefile,ends).then(function(items)
 {
-alert(items);
+//alert(items);
 if(items=='end'){
 $scope.btshow=false;	
 
