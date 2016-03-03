@@ -569,7 +569,7 @@ this.UserImg=function(imageURI,file_name,counts){
 			var options = new FileUploadOptions();
 			options.fileKey="file";
 			options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
-//alert(counts);
+alert(counts);
 			var params = {};
 			params.value1 = file_name;
 			params.value2  = counts;
@@ -639,7 +639,7 @@ namefile=d.getTime()+'.jpg';
 var largeImage = document.getElementById('largeImage'+i);
 
 imageURI=largeImage.src;
-//alert(imageURI);
+alert(imageURI);
 if(i==3){ends='end'}else{ends='no'}
 todoServicez.UserImg(imageURI,namefile,ends).then(function(items)
 {
