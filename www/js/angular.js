@@ -128,8 +128,8 @@ scotchApp.controller('mainController', function($scope,user, todoService,$locati
  $scope.user = user;
  $scope.user.bazdid = "بازدید اولیه برنا";
   $scope.user.namia = false;
-document.addEventListener("backbutton", function(e){
-	if($location.path()=='/home' ){
+  document.addEventListener("backbutton", function(e){
+  if($location.path()=='/home' ){
 	e.preventDefault();
 	navigator.app.exitApp();
 	}
@@ -329,7 +329,7 @@ this.searchItems = function(para)
 		  {
 			  for(var i = 0; i < res.rows.length; i++)
 			  {
-		  result.push({id : 'content/list/'+res.rows.item(i).ids, name : res.rows.item(i).name, bime : res.rows.item(i).bime, company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
+		  result.push({id : 'content/list/'+res.rows.item(i).ids, name : res.rows.item(i).name, bime : res.rows.item(i).bime,fav : res.rows.item(i).fav, company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
 		  }
 		  deferred.resolve(result);
 		});
@@ -393,13 +393,17 @@ if(items[0].fav==1){
 });
 
 /////////////////////////////////////// like kardan
-$scope.fave = function (id_var) 
+$scope.fave = function (id_var,faver) 
 {
-$scope.iconslike="img/icons/plain-heart.svg";	
-todoServicez.faverat(id_var);
+if(faver==0){$scope.iconslike="img/icons/plain-heart.svg";
+texts='این خودرو با موفقیت در لیست علاقه مندی های شما قرار گرفت!';
+favt=1;}else{$scope.iconslike="img/icons/like80.svg"; 
+texts='این خودرو از لیست علاقه مندی های شما حذف گردید!';
+favt=0;}
+todoServicez.faverat(id_var,favt);
 $mdToast.show(
       $mdToast.simple()
-        .textContent('این خودرو با موفقیت در لیست علاقه مندی های شما قرار گرفت!')
+        .textContent(texts)
         .position('bottom right')
         .hideDelay(5000)
 );
@@ -489,7 +493,7 @@ this.carme = function(para)
 		  { 
 			  for(var i = 0; i < res.rows.length; i++)
 			  {//alert(res.rows.item(i).pic);
-		  result.push({id : res.rows.item(i).ids, name : res.rows.item(i).name,co_name : res.rows.item(i).co_name,bime : res.rows.item(i).bime, picname: res.rows.item(i).pic, direct: res.rows.item(i).direct, srcpic: 'http://www.borna-grp.ir/', company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
+		  result.push({id : res.rows.item(i).ids, name : res.rows.item(i).name,co_name : res.rows.item(i).co_name,bime : res.rows.item(i).bime, picname: res.rows.item(i).pic,fav : res.rows.item(i).fav, direct: res.rows.item(i).direct, srcpic: 'http://www.borna-grp.ir/', company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
 		  }
 		  deferred.resolve(result);
 		});
@@ -593,12 +597,12 @@ this.UserImg=function(imageURI,file_name,counts){
 
 return deferred.promise;
         },
-this.faverat = function(idss) 
+this.faverat = function(idss,fave) 
     {
 		var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
         db.transaction(function(tx) 
         {
-            return tx.executeSql("UPDATE cars SET fav=1 where ids="+idss , [], function(tx, res) 
+            return tx.executeSql("UPDATE cars SET fav="+fave+" where ids="+idss , [], function(tx, res) 
             {
                 return true;
             });
@@ -763,5 +767,6 @@ $scope.settings = [
   { name: 'لیست شرکت ها', icon: 'img/icons/automobile-salesman.svg', links: '/home' },
   { name: 'لیست خودرو ها',  icon: 'img/icons/transport103.svg', links: '/search/2'  },
   { name: 'تنظیمات',  icon: 'img/icons/three115.svg', links: '/setting/2'  },
+  { name: 'ثبت خودروي جديد',  icon: 'img/icons/car-insurance.svg', links: '/form/2'  },
   ];
 });

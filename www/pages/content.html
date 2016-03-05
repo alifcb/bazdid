@@ -6,8 +6,8 @@
         <md-card-content class="padding0" layout="row" layout-align="space-between">
           <div class="md-media-lg card-media"><img ng-src="{{item.pic}}" class="md-card-image width100 height100" alt="{{item.name}}"></div>
           <md-card-actions layout="column">
-            <md-button class="md-icon-button" aria-label="Favorite">
-              <md-icon ng-click="fave(item.id)" md-svg-icon="{{iconslike}}"></md-icon>
+            <md-button   class="md-icon-button" aria-label="Favorite">
+              <md-icon ng-click="fave(item.id,item.fav)" md-svg-icon="{{iconslike}}"></md-icon>
             </md-button>
             <md-button class="md-icon-button" aria-label="Settings">
               <md-icon ng-click="downloadimg(item.srcpic,item.direct,item.picname,item.id)"  md-svg-icon="img/icons/progress12.svg"></md-icon>
