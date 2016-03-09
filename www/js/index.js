@@ -47,7 +47,7 @@ function table(tx){
 //tx.executeSql('DROP TABLE IF EXISTS settings');
 tx.executeSql('CREATE TABLE IF NOT EXISTS company(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,logo text,direct text,flag INTEGER)');
 tx.executeSql('CREATE TABLE IF NOT EXISTS pics(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,ids INTEGER, pic text,id_car INTEGER,direct text,flag INTEGER)');
-tx.executeSql('CREATE TABLE IF NOT EXISTS cars(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,bime INTEGER,pic text,direct text,company INTEGER,flag INTEGER,fav INTEGER)');
+tx.executeSql('CREATE TABLE IF NOT EXISTS cars(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,bime text,pic text,direct text,company INTEGER,flag INTEGER,fav INTEGER)');
 tx.executeSql('CREATE TABLE IF NOT EXISTS settings(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, title text,valuem text)');
 //tx.executeSql('INSERT INTO settings(title,valuem) values("flag_one","1")');
 }
@@ -213,7 +213,7 @@ DownloadFile('http://www.borna-grp.ir/'+direct+pic,pic);
 
 function inserts_cars(tx,id,name,pic,bime,comment,company,direct,flag) {
 //alert(id+name+pic+comment);
-tx.executeSql('INSERT INTO cars(ids,name,comment,bime,company,direct,pic,flag,fav) values('+id+', "'+name+'","'+comment+'",'+bime+','+company+',"'+direct+'", "'+pic+'",'+flag+',0)');
+tx.executeSql('INSERT INTO cars(ids,name,comment,bime,company,direct,pic,flag,fav) values('+id+', "'+name+'","'+comment+'","'+bime+'",'+company+',"'+direct+'", "'+pic+'",'+flag+',0)');
 }
 
 
@@ -283,7 +283,7 @@ dbs.transaction (function(tx){insert_to_car(tx,id,name,pic,bime,direct,company,c
 }
 
 function insert_to_car(tx,id,name,pic,bime,direct,company,comment,flag) {
-tx.executeSql('INSERT INTO cars(ids,name,comment,company,pic,bime,direct,flag,fav) values('+id+', "'+name+'", "'+comment+'",  '+company+',"'+pic+'",'+bime+',"'+direct+'", '+flag+',0)');
+tx.executeSql('INSERT INTO cars(ids,name,comment,company,pic,bime,direct,flag,fav) values('+id+', "'+name+'", "'+comment+'",  '+company+',"'+pic+'","'+bime+'","'+direct+'", '+flag+',0)');
 DownloadFile('http://www.borna-grp.ir/'+direct+pic,pic);	// دانلود عکس ها
 }
 
@@ -299,7 +299,7 @@ function testcard() {
 }
 
 function up_function_car(tx,id,name,pic,bime,direct,company,comment,flag) {//alert(name);
-tx.executeSql("UPDATE cars SET name='"+name+"',comment='"+comment+"',company="+company+",pic='"+pic+"',bime="+bime+",direct='"+direct+"',flag="+flag+" where ids="+id+"", [], testcard, errorCB );
+tx.executeSql("UPDATE cars SET name='"+name+"',comment='"+comment+"',company="+company+",pic='"+pic+"',bime='"+bime+"',direct='"+direct+"',flag="+flag+" where ids="+id+"", [], testcard, errorCB );
 }
 ////////// اپدیت تعداد ایتم های موجود در دیتا بیس محلی
 function up_last_car(number) {

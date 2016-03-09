@@ -28,23 +28,19 @@ scotchApp.config(function($routeProvider) {
 	  // route for the list page
 	  .when('/list/:param1', {
 		  templateUrl : 'pages/list.html',
-		
 	  })
 	  	  // route for the search page
 	  .when('/search/:param1', {
 		  templateUrl : 'pages/search.html',
-		
 	  })
 	 // route for the content page
 	  .when('/content/:param1/:page1', {
 		  templateUrl : 'pages/content.html',
-		
 	  })
 	   // route for the tabs page
 	  .when('/form/:param1', {
 		  templateUrl : 'pages/form.html',
 	  })
-	  
 	  	   // route for the tabs page
 	  .when('/fav/:param1', {
 		  templateUrl : 'pages/fav.html',
@@ -63,7 +59,6 @@ scotchApp.config(function($routeProvider) {
 		  templateUrl : 'pages/setting.html',
 	  })
 });
-
 ////////////////////////////////////////////////////////onlineCtrl
 scotchApp.controller('onlineCtrl',  function($scope,$location,$routeParams)
 {
@@ -225,7 +220,7 @@ tx.executeSql('DROP TABLE IF EXISTS cars');
 
 tx.executeSql('CREATE TABLE IF NOT EXISTS company(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,logo text,direct text,flag INTEGER)');
 tx.executeSql('CREATE TABLE IF NOT EXISTS pics(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,ids INTEGER, pic text,id_car INTEGER,direct text,flag INTEGER)');
-tx.executeSql('CREATE TABLE IF NOT EXISTS cars(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,bime INTEGER,pic text,direct text,company INTEGER,flag INTEGER,fav INTEGER)');
+tx.executeSql('CREATE TABLE IF NOT EXISTS cars(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,bime text,pic text,direct text,company INTEGER,flag INTEGER,fav INTEGER)');
 tx.executeSql('CREATE TABLE IF NOT EXISTS settings(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, title text,valuem text)');
 tx.executeSql('DELETE FROM settings where title<>"id_reg"');
 }
