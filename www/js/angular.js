@@ -16,9 +16,9 @@ scotchApp.config(function($routeProvider) {
 		  templateUrl : 'pages/start.html',
 	  })
 	  
-	  .when('/home', {
+	  .when('/home/:param1', {
 		  templateUrl : 'pages/home.html',
-		  controller  : 'Sidnav'
+		  
 	  })
 	  
 	  .when('/online', {
@@ -36,6 +36,7 @@ scotchApp.config(function($routeProvider) {
 	 // route for the content page
 	  .when('/content/:param1/:page1', {
 		  templateUrl : 'pages/content.html',
+		  controller  : 'ContentCtrl'
 	  })
 	   // route for the tabs page
 	  .when('/form/:param1', {
@@ -70,6 +71,17 @@ $location.path('/');
 ////////////////////////////////////////////////////////////	
 scotchApp.controller('StarterCtr',  function($scope, todoService,$location,$routeParams,$sce,$http)
 {
+interd=document.getElementById('inter').value;
+if(interd==1){
+navigator.notification.confirm("آیا می خواهید از برنامه خارج شوید؟ ", onConfirm, "خروج از برنامه!", "بله,خیر"); 
+    // Prompt the user with the choice
+function onConfirm(button) {
+    if(button==2){//If User selected No, then we just do nothing
+        return;
+    }else{
+        navigator.app.exitApp();// Otherwise we quit the app.
+  }
+}}
 
 $scope.go = function ( path ) {$location.path( path );};
 
@@ -77,7 +89,8 @@ todoService.idreg().then(function(items)
 {
 	$scope.regiser = items;
 	if($scope.regiser){
-	$location.path('/home');
+	$location.path('/home/x');
+	document.getElementById('inter').value=1;
 	return 0;
 	}else{
 	document.addEventListener("offline", onOffline, false);
@@ -106,7 +119,7 @@ var uid = device.uuid;
 //alert(data.items[0].cell);
 if(data.items[0].cell!=''){
 todoService.insertcod(data.items[0].cell);
-$location.path('/home');
+$location.path('/home/x');
 }else{
 alert('کد خرید وارد شده صحیح نمی باشد');
 }
@@ -120,19 +133,12 @@ alert('کد خرید وارد شده صحیح نمی باشد');
 
 scotchApp.controller('mainController', function($scope,user, todoService,$location,$routeParams)
 {
+
+
  $scope.user = user;
  $scope.user.bazdid = "بازدید اولیه برنا";
   $scope.user.namia = false;
-  document.addEventListener("backbutton", function(e){
-  if($location.path()=='/home' ){
-	e.preventDefault();
-	navigator.app.exitApp();
-	}
-	else {
-	navigator.app.backHistory()
-	}
-}, false);
-	
+ 
 $scope.go = function ( path ) {$location.path( path );};
 todoService.getItems().then(function(items)
 {
@@ -276,6 +282,7 @@ headers: {
 //////////////////////////////////////////////////////////////////////////////////////////////
 scotchApp.controller('listAppCtrl', function($scope,todoServicex,$location,$routeParams)
 {
+
 $scope.query = '';
 $scope.search = function (user) {
   var query = $scope.query.toLowerCase(),
@@ -307,7 +314,7 @@ this.getItems = function(para)
 		  {
 			  for(var i = 0; i < res.rows.length; i++)
 			  {
-		  result.push({id : 'content/list/'+res.rows.item(i).ids, name : res.rows.item(i).name, bime : res.rows.item(i).bime, company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
+		  result.push({id : 'content/'+idcom+'/'+res.rows.item(i).ids, name : res.rows.item(i).name, bime : res.rows.item(i).bime, company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
 		  }
 		  deferred.resolve(result);
 		});
@@ -324,7 +331,7 @@ this.searchItems = function(para)
 		  {
 			  for(var i = 0; i < res.rows.length; i++)
 			  {
-		  result.push({id : 'content/list/'+res.rows.item(i).ids, name : res.rows.item(i).name, bime : res.rows.item(i).bime,fav : res.rows.item(i).fav, company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
+		  result.push({id : 'content/search/'+res.rows.item(i).ids, name : res.rows.item(i).name, bime : res.rows.item(i).bime,fav : res.rows.item(i).fav, company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
 		  }
 		  deferred.resolve(result);
 		});
@@ -341,7 +348,7 @@ this.getfaver = function()
 		  {
 		for(var i = 0; i < res.rows.length; i++)
 		{
-		  result.push({id : 'content/list/'+res.rows.item(i).ids, name : res.rows.item(i).name, company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
+		  result.push({id : 'content/fav/'+res.rows.item(i).ids, name : res.rows.item(i).name, company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
 		}
 		  deferred.resolve(result);
 		});
@@ -362,8 +369,9 @@ $scope.search = function (user) {
   if (name.indexOf(query) != -1) {
     return true;
   }
-  return false;
+return false;
 };
+
 
 todoServicex.searchItems().then(function(items)
 {
@@ -377,13 +385,24 @@ scotchApp.controller('ContentCtrl', function($scope,$route,todoServicez,$locatio
 var param1 = $routeParams.param1;
 var page1 = $routeParams.page1;
 
+
+//vareas='/list/'+param1;
+//
+//alert($location.path());
+//document.addEventListener("backbutton", function(e){
+//if($location.path()=='content/'+param1+page1 ){
+//e.preventDefault();
+//$location.path(vareas);
+//  }
+//}, false);
+
 todoServicez.iffav(page1).then(function(items)
 {
 
 if(items[0].fav==1){
-	$scope.iconslike="img/icons/plain-heart.svg";
+$scope.iconslike="img/icons/plain-heart.svg";
 	}else{
-	$scope.iconslike="img/icons/like80.svg";
+$scope.iconslike="img/icons/like80.svg";
 	}
 });
 
@@ -691,11 +710,17 @@ $scope.todos = items;
 });
 
 ////////////////////////////////////////////////////////////////////////////////////sid nav
-scotchApp.controller('Sidnav', function ($scope,user,$location,$routeParams, $timeout, $mdSidenav, $log) {
+scotchApp.controller('Sidnav', function ($scope,user,$location,$routeParams, $timeout,$anchorScroll, $mdSidenav, $log) {
 $scope.user = user;
 $scope.user.bazdid = "فعالسازی برنامه";
 $scope.user.namia = true;
+$scope.gototop = function() {
 
+$location.hash('tops');
+
+// call $anchorScroll()
+$anchorScroll();
+};
 $scope.go = function ( path ) { $location.path( path );};
 $scope.toggleLeft = buildDelayedToggler('left');
 $scope.toggleRight = buildToggler('right');
@@ -759,7 +784,7 @@ $mdSidenav('right').close()
   });
 }; 
 $scope.settings = [
-  { name: 'لیست شرکت ها', icon: 'img/icons/automobile-salesman.svg', links: '/home' },
+  { name: 'لیست شرکت ها', icon: 'img/icons/automobile-salesman.svg', links: '/home/x' },
   { name: 'لیست خودرو ها',  icon: 'img/icons/transport103.svg', links: '/search/2'  },
   { name: 'تنظیمات',  icon: 'img/icons/three115.svg', links: '/setting/2'  },
   { name: 'ثبت خودروي جديد',  icon: 'img/icons/car-insurance.svg', links: '/form/2'  },

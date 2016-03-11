@@ -14,6 +14,7 @@
         <title>Hello World</title>
     </head>
 <body ng-app="StarterApp" ng-cloak>
+     <input  id="inter" style="display:none" value="0" type="text">
 
 <div  ng-controller="Sidnav"   md-swipe-left="toggleRight()" md-swipe-right="close()" ng-cloak>
 <md-sidenav  class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
@@ -47,7 +48,7 @@
 <div>
     <md-toolbar class="fixed "  >
       <div class="md-toolbar-tools">
-        <md-button class="md-icon-button"   ng-disabled="user.namia" ng-click="go('search/2')" aria-label="Settings">
+        <md-button class="md-icon-button"   ng-disabled="user.namia" ng-click="go('search/2');gototop()" aria-label="Settings">
           <md-icon md-svg-icon="img/icons/magnifier13.svg"></md-icon>
         </md-button>   
         <md-button class="md-icon-button"  ng-disabled="user.namia" ng-click="go('fav/2')" aria-label="Favorite">
