@@ -85,6 +85,18 @@ function onConfirm(button) {
 
 $scope.go = function ( path ) {$location.path( path );};
 
+document.addEventListener("offline", onOffline, false);
+  function onOffline() {
+navigator.notification.confirm("ارتباط شما با اینترنت برقرار نیست! لطفا داده تلفن همراه خود را روشن کنید ", onConfirm, "خروج از برنامه!", "بله"); 
+// Prompt the user with the choice
+function onConfirm(button) {
+if(button==2){//If User selected No, then we just do nothing
+  return;
+}
+}
+offline=1;
+}	
+
 todoService.idreg().then(function(items)
 {
 	$scope.regiser = items;
@@ -93,8 +105,7 @@ todoService.idreg().then(function(items)
 	document.getElementById('inter').value=1;
 	return 0;
 	}else{
-	document.addEventListener("offline", onOffline, false);
-	  function onOffline() {
+	if(offline==1){
 	  $location.path('/online');
 	}	
 	}
@@ -516,7 +527,7 @@ this.carme = function(para)
     },
 this.picme = function(para)
 {   var idcom=para;
-
+//alert(idcom);
 var deferred, result = [];
 deferred = $q.defer();
 var db = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);

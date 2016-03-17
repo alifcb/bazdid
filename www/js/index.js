@@ -41,10 +41,10 @@ db.transaction(table, errorCB, successCB);
 // end onDeviceBase
 
 function table(tx){    
-//tx.executeSql('DROP TABLE IF EXISTS company');
-//tx.executeSql('DROP TABLE IF EXISTS pics');
-//tx.executeSql('DROP TABLE IF EXISTS cars');
-//tx.executeSql('DROP TABLE IF EXISTS settings');
+tx.executeSql('DROP TABLE IF EXISTS company');
+tx.executeSql('DROP TABLE IF EXISTS pics');
+tx.executeSql('DROP TABLE IF EXISTS cars');
+tx.executeSql('DROP TABLE IF EXISTS settings');
 tx.executeSql('CREATE TABLE IF NOT EXISTS company(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,logo text,direct text,flag INTEGER)');
 tx.executeSql('CREATE TABLE IF NOT EXISTS pics(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,ids INTEGER, pic text,id_car INTEGER,direct text,flag INTEGER)');
 tx.executeSql('CREATE TABLE IF NOT EXISTS cars(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, ids INTEGER, name text,comment text,bime text,pic text,direct text,company INTEGER,flag INTEGER,fav INTEGER)');
@@ -141,8 +141,8 @@ DownloadFile('http://www.borna-grp.ir/'+json.items[i].direct+json.items[i].pic,j
 
 ///////////////فقط برای تست بعدا برداشته شود
 function testonly() {
-//var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
-//dbs.transaction(flag_dd, errOUT);
+var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
+dbs.transaction(flag_dd, errOUT);
 }
 function flag_dd(tx) {
 tx.executeSql('SELECT * FROM pics', [], querySuccess, errorCB);
@@ -152,7 +152,7 @@ function querySuccess(tx, results){
 var len = results.rows.length;
 console.log("company table: " + len + " rows found.");
 for (var i=0; i<len; i++){
- out+="Row = " + i + " ID = " + results.rows.item(i).ids + " flag =  " + results.rows.item(i).flag  + " logo =  " + results.rows.item(i).pic;
+ out+="Row = " + i + " ID = " + results.rows.item(i).id_car + " flag =  " + results.rows.item(i).flag  + " logo =  " + results.rows.item(i).pic;
 }
 console.log( out);
 }
@@ -221,6 +221,7 @@ tx.executeSql('INSERT INTO cars(ids,name,comment,bime,company,direct,pic,flag,fa
 ////////////////////////////////////////////////////////////////////////pics_car start insert
 $.getJSON("http://www.borna-grp.ir/company.json", function(json) {
 var long=json.pics.length;
+//alert(long);
 var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 dbs.transaction (function(tx){nenter_pic(tx,long);},errOUT);	
  
@@ -349,8 +350,8 @@ var dbs = window.openDatabase("Database", "1.0", "Cordova bazdid", 200000);
 dbs.transaction (function(tx){insert_to_pic(tx,id,pic,direct,id_car,flag);}, errorCB );	 
 }
 
-function insert_to_pic(tx,id,pic,direct,id_car,flag) {
-tx.executeSql('INSERT INTO pics(ids,pic,direct,id_car,flag) values('+id+',"'+pic+'","'+direct+'", '+id_car+' '+flag+')');
+function insert_to_pic(tx,id,pic,direct,id_car,flag) {//alert(id+pic+direct+id_car+flag);
+tx.executeSql('INSERT INTO pics(ids,pic,direct,id_car,flag) values('+id+',"'+pic+'","'+direct+'", '+id_car+', '+flag+')');
 DownloadFile('http://www.borna-grp.ir/'+direct+pic,pic);	// دانلود عکس ها
 }
 ///////////////////////// اپدیت  آیتم های قدیم
