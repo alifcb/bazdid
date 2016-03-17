@@ -61,12 +61,23 @@ scotchApp.config(function($routeProvider) {
 	  })
 });
 ////////////////////////////////////////////////////////onlineCtrl
-scotchApp.controller('onlineCtrl',  function($scope,$location,$routeParams)
+scotchApp.controller('onlineCtrl',  function($scope,todoService,$location,$routeParams)
 {
 document.addEventListener("online", onOnline, false);
 function onOnline() {
-$location.path('/');
+$location.path('/home/x');
 }
+
+todoService.idreg().then(function(items)
+{
+	$scope.regiser = items;
+	if($scope.regiser){
+	$location.path('/home/x');
+	document.getElementById('inter').value=1;
+	return 0;
+	}
+})
+
 });
 ////////////////////////////////////////////////////////////	
 scotchApp.controller('StarterCtr',  function($scope, todoService,$location,$routeParams,$sce,$http)
@@ -87,14 +98,7 @@ $scope.go = function ( path ) {$location.path( path );};
 
 document.addEventListener("offline", onOffline, false);
   function onOffline() {
-navigator.notification.confirm("ارتباط شما با اینترنت برقرار نیست! لطفا داده تلفن همراه خود را روشن کنید ", onConfirm, "خروج از برنامه!", "بله"); 
-// Prompt the user with the choice
-function onConfirm(button) {
-if(button==2){//If User selected No, then we just do nothing
-  return;
-}
-}
-offline=1;
+  $location.path('/online');
 }	
 
 todoService.idreg().then(function(items)
@@ -104,10 +108,6 @@ todoService.idreg().then(function(items)
 	$location.path('/home/x');
 	document.getElementById('inter').value=1;
 	return 0;
-	}else{
-	if(offline==1){
-	  $location.path('/online');
-	}	
 	}
 });
 
