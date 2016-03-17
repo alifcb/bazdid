@@ -63,26 +63,13 @@ scotchApp.config(function($routeProvider) {
 ////////////////////////////////////////////////////////onlineCtrl
 scotchApp.controller('onlineCtrl',  function($scope,todoService,$location,$routeParams)
 {
-document.addEventListener("online", onOnline, false);
-function onOnline() {
-$location.path('/home/x');
-}
-
-todoService.idreg().then(function(items)
-{
-	$scope.regiser = items;
-	if($scope.regiser){
-	$location.path('/home/x');
-	document.getElementById('inter').value=1;
-	return 0;
-	}
-})
 
 });
 ////////////////////////////////////////////////////////////	
 scotchApp.controller('StarterCtr',  function($scope, todoService,$location,$routeParams,$sce,$http)
 {
 interd=document.getElementById('inter').value;
+online=document.getElementById('online').value;
 if(interd==1){
 navigator.notification.confirm("آیا می خواهید از برنامه خارج شوید؟ ", onConfirm, "خروج از برنامه!", "بله,خیر"); 
     // Prompt the user with the choice
@@ -92,14 +79,11 @@ function onConfirm(button) {
     }else{
         navigator.app.exitApp();// Otherwise we quit the app.
   }
-}}
-
+}}else
+if(online==0 && interd==0){
+	$location.path('/online' );
+}
 $scope.go = function ( path ) {$location.path( path );};
-
-document.addEventListener("offline", onOffline, false);
-  function onOffline() {
-  $location.path('/online');
-}	
 
 todoService.idreg().then(function(items)
 {
@@ -118,6 +102,11 @@ $scope.movie = {src:"http://www.borna-grp.ir/req.php", title:"واریز به ح
 /////////////////////////////////////////////////////////////////////
 $scope.user = {};
 $scope.sabtcode = function() {
+online=document.getElementById('online').value;
+if(online==0 && interd==0){
+	$location.path('/online' );
+}
+
 var uid = device.uuid;
 
   $http({
@@ -640,10 +629,14 @@ this.faverat = function(idss,fave)
 ///////////////////////////////////////////////////FORMCtrl
 scotchApp.controller('FORMCtrl', function($scope, todoServicez,$location,$routeParams,$sce,$http,$mdToast)
 {
+
 pictureSource=navigator.camera.PictureSourceType;
 destinationType=navigator.camera.DestinationType;
 $scope.users = {};	
 $scope.sendform = function(urlpic) {
+	
+online=document.getElementById('online').value;
+
 $scope.user.company='no';
 //var laImage = document.getElementById('largeImage0').src;	
 if(!$scope.user.company || !$scope.user.cars){
@@ -653,7 +646,11 @@ $mdToast.show(
         .position('bottom right')
         .hideDelay(3500)
 );
-}else{	
+}else
+if(online==0){
+$location.path('/online' );
+}else
+{	
 $scope.btshow=true;
 $mdToast.show(
 $mdToast.simple()

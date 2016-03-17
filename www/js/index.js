@@ -30,7 +30,14 @@ var app = {
 };
 
 document.addEventListener('deviceready', onDeviceBase, false);
-
+document.addEventListener("offline", onOffline, false);
+document.addEventListener("online", onOnline, false);
+  function onOffline() {
+document.getElementById('online').value=0;
+}	
+  function onOnline() {
+document.getElementById('online').value=1;
+}	
 ////////////////////////////////////
 function onDeviceBase() {
 
