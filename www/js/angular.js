@@ -176,7 +176,6 @@ scotchApp.service('todoService', function($q)
 				});
 				return deferred.promise;
 				},
-				
 		               this.idreg = function()
 						{  
 						var deferred, result = [];
@@ -331,7 +330,7 @@ this.searchItems = function(para)
 		  {
 			  for(var i = 0; i < res.rows.length; i++)
 			  {
-		  result.push({id : 'content/search/'+res.rows.item(i).ids, name : res.rows.item(i).name, bime : res.rows.item(i).bime,fav : res.rows.item(i).fav, company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
+	   result.push({id : 'content/search/'+res.rows.item(i).ids, name : res.rows.item(i).name, bime : res.rows.item(i).bime,fav : res.rows.item(i).fav, company : res.rows.item(i).company,comment : res.rows.item(i).comment, pic : 'file:///storage/sdcard0/bazdid/images/'+res.rows.item(i).pic})
 		  }
 		  deferred.resolve(result);
 		});
@@ -371,7 +370,6 @@ $scope.search = function (user) {
   }
 return false;
 };
-
 
 todoServicex.searchItems().then(function(items)
 {
@@ -656,7 +654,7 @@ $mdToast.show(
 $mdToast.simple()
   .textContent('برنامه در حال ارسال اطلاعات می باشد لطفا منتظر بمانید!')
   .position('bottom right')
-  .hideDelay(3500)
+  .hideDelay(15500)
 );
 
 for(var i = 0; i < 4; i++){

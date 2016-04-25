@@ -1,13 +1,21 @@
-<div ng-controller="StarterCtr" layout="column" layout-padding ng-cloak  class=" padd-48" >
-<iframe  type="text/html" height="385" ng-src="{{trustSrc(movie.src)}}" allowfullscreen frameborder="0"></iframe>
-  <br/>
+<div ng-controller="StarterCtr" layout="column" layout-padding ng-cloak  class=" padd-65" >
+<!--<iframe  type="text/html" height="385" ng-src="{{trustSrc(movie.src)}}" allowfullscreen frameborder="0"></iframe>
+--> 
+<!--       < ng-click="sabtcode();">ثبت</> -->
   <md-content class="autoScroll">
+  <p>لطفا جهت ورود به برنامه كد فعالسازي خريداري شده را وارد نماييد.</p>
+<md-input-container class="md-icon-float md-block  ">
+<label>سریال خریداری شده:</label>
+<md-icon md-svg-src="img/icons/blank38.svg" class="name"></md-icon>
+<input ng-model="user.code" type="text">
+</md-input-container>
+<md-button class="md-raised md-primary width100"  ng-click="sabtcode();">ثبت</md-button> 
 
-        <md-input-container class="md-icon-float md-block">
-      <label>سریال خرید</label>
-      <md-icon md-svg-src="img/icons/blank38.svg" class="name"></md-icon>
-      <input ng-model="user.code" type="text">
-    </md-input-container>
-          <md-button class="md-raised md-primary width100"  ng-click="sabtcode();">ثبت</md-button> 
-            </md-content>
+
+<br class=" mrg_btn40"/> <br />
+<br />
+<br />
+<p>در صورتي كه كد فعالسازي را تهيه ننموده ايد مي توانيد آن را از طريق زير خريداري نماييد.</p>
+<md-button class="md-raised md-primary width100 "  onclick="window.open('http://www.borna-grp.ir/request.php', '_system');" >خرید کد فعالسازی </md-button>
+</md-content> 
 </div>

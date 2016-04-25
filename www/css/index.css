@@ -24,6 +24,15 @@ md-list-item.md-3-line, md-list-item.md-3-line > .md-no-style {
 	bottom:25px;
 	left:25px;
 }
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
 md-button md-icon .adds{color:#FFF !important}
 md-list-item .md-no-style.md-button, md-list-item.md-no-proxy.md-button{text-align:right !important;}
 md-list-item md-icon{margin-left:10px !important; margin-right:0px !important;}
@@ -50,6 +59,8 @@ position: fixed !important;}
 .height100{height:100% !important}
 .padding0{padding:0 !important;}
 .padding15{padding:15px !important;}
+.mrg_btn30{margin-bottom:30px;}
+.mrg_btn40{margin-bottom:40px !important; }
 md-dialog{ max-width:90% !important; max-height:90% !important;}
 
 md-input-container.md-has-icon{padding-left:0 !important; padding-right:36px !important;}
